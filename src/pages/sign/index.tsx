@@ -1,5 +1,5 @@
 import React from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Redirect, Route } from 'react-router-dom';
 import { Container, Paper, Theme, createStyles, makeStyles } from '@material-ui/core';
 import { ToastContainer } from 'react-toastify';
 
@@ -17,9 +17,9 @@ export default () => {
     const classes = useStyles();
     return <Container maxWidth="sm" color="red" style={{ height: '100%' }}>
         <Paper className={classes.root}>
-            <Switch>
-                <Route path="/sign/in" component={SignInPage} />
-            </Switch>
+            <Route path="/sign/in" component={SignInPage} />
+            <Redirect to="/sign/in" />
+
         </Paper>
         <ToastContainer
             position="top-right"

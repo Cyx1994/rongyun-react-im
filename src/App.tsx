@@ -1,6 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Route, } from 'react-router-dom'
-
+import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom'
 import CommonContainerComponent from './pages/container';
 import SignScreen from './pages/sign';
 
@@ -11,8 +10,12 @@ function App() {
   return (
     <div className="App">
       <BrowserRouter>
-        <Route path="/home" component={CommonContainerComponent} />
-        <Route path="/sign" component={SignScreen} />
+        <Switch>
+          <Route path="/sign" component={SignScreen} />
+          <Route path="/home" component={CommonContainerComponent} />
+          <Redirect to="/sign" />
+        </Switch>
+
       </BrowserRouter>
     </div>
   );
