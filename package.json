@@ -1,11 +1,29 @@
 {
-  "name": "rongcloud-react-web-im",
+  "name": "rongcloud-react-web-im-client",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@material-ui/core": "^4.4.3",
+    "@material-ui/icons": "^4.4.3",
+    "@types/jest": "^24.0.18",
+    "@types/node": "^12.7.7",
+    "@types/react": "^16.9.3",
+    "@types/react-dom": "^16.9.1",
+    "@types/react-redux": "^7.1.3",
+    "@types/react-router-dom": "^4.3.5",
+    "@types/redux-thunk": "^2.1.0",
+    "axios": "^0.19.0",
+    "moment": "^2.24.0",
+    "rc-form-hooks": "^0.0.1-alpha.22",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
-    "react-scripts": "3.1.2"
+    "react-redux": "^7.1.1",
+    "react-router-dom": "^5.1.0",
+    "react-scripts": "3.1.2",
+    "redux": "^4.0.4",
+    "redux-persist": "^6.0.0",
+    "redux-thunk": "^2.3.0",
+    "typescript": "^3.6.3"
   },
   "scripts": {
     "start": "react-scripts start",
