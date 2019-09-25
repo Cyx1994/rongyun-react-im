@@ -5,13 +5,16 @@ import CommonContainerComponent from './pages/container';
 import SignScreen from './pages/sign';
 
 import './App.css';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   return (
-    <BrowserRouter>
-      <Route path="/home" component={CommonContainerComponent} />
-      <Route path="/sign" component={SignScreen} />
-    </BrowserRouter>
+    <div className="App">
+      <BrowserRouter>
+        <Route path="/home" component={CommonContainerComponent} />
+        <Route path="/sign" component={SignScreen} />
+      </BrowserRouter>
+    </div>
   );
 }
 

@@ -1,25 +1,44 @@
 import React from 'react';
-import { TextField, Input } from '@material-ui/core';
+import { RouteComponentProps } from 'react-router-dom';
+import { Box, TextField, Button } from '@material-ui/core';
 import useForm, { FormMethods } from 'rc-form-hooks';
+import { toast } from 'react-toastify';
 
-const SignInPage: React.FC = () => {
-    const { getFieldDecorator, validateFields, values }: FormMethods<{
-        username: string;
-        password: string;
-    }> = useForm();
+type AccountInfo = {
+    username: string,
+    password: string,
+}
+
+const SignInPage: React.FC<RouteComponentProps> = ({ history }) => {
+
+    const { getFieldDecorator, validateFields }: FormMethods<AccountInfo> = useForm();
+
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         validateFields()
-            .then(console.log)
-            .catch(e => console.error(e.message));
+            .then(v => {
+                console.log(v);
+                history.push('/home');
+            })
+            .catch(e => toast.error(e.message));
     };
+
     return (
         <form onSubmit={handleSubmit}>
-            {getFieldDecorator('username', {
-                rules: [{ required: true, message: 'Please input username!' }]
-            })(<TextField label="username" />)}
-            <button type={'submit'}>submit</button>
+            <Box width={'100%'} height={300} >
+                {getFieldDecorator('username', {
+                    rules: [{ required: true, message: 'Please input username!' }],
+                    initialValue: '',
+                })(<TextField autoFocus label="username" variant="filled" fullWidth />)}
+                {getFieldDecorator('password', {
+                    rules: [{ required: true, message: 'Please input password!' }],
+                    initialValue: '',
+                })(<TextField label="password" variant="filled" fullWidth />)}
+
+                <Button type={'submit'}>submit</Button>
+            </Box>
         </form>
+
     );
 }
 

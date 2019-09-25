@@ -8,7 +8,6 @@ import InputBase from '@material-ui/core/InputBase';
 import Badge from '@material-ui/core/Badge';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
-import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MailIcon from '@material-ui/icons/Mail';
@@ -19,9 +18,6 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     grow: {
       flexGrow: 1,
-    },
-    menuButton: {
-      marginRight: theme.spacing(2),
     },
     title: {
       display: 'none',
@@ -64,6 +60,11 @@ const useStyles = makeStyles((theme: Theme) =>
         width: 200,
       },
     },
+    navigator: {
+      flexGrow: 1,
+      display: 'flex',
+      justifyContent: 'space-arround'
+    },
     sectionDesktop: {
       display: 'none',
       [theme.breakpoints.up('md')]: {
@@ -81,9 +82,10 @@ const useStyles = makeStyles((theme: Theme) =>
 
 interface Props {
   title?: string,
+  navigators: any[],
 }
 
-export default function AppBarComponent({ title = 'Empty_' }: Props) {
+export default function AppBarComponent({ title = 'Empty_', navigators }: Props) {
   const classes = useStyles(0);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -164,19 +166,10 @@ export default function AppBarComponent({ title = 'Empty_' }: Props) {
       </MenuItem>
     </Menu>
   );
-
   return (
     <div className={classes.grow}>
       <AppBar position="static">
         <Toolbar>
-          <IconButton
-            edge="start"
-            className={classes.menuButton}
-            color="inherit"
-            aria-label="open drawer"
-          >
-            <MenuIcon />
-          </IconButton>
           <Typography className={classes.title} variant="h6" noWrap>
             {title}
           </Typography>
@@ -193,7 +186,18 @@ export default function AppBarComponent({ title = 'Empty_' }: Props) {
               inputProps={{ 'aria-label': 'search' }}
             />
           </div>
-          <div className={classes.grow} />
+          <div className={classes.navigator}>
+            {
+              navigators.map((n, index) => {
+                const TempIcon = n.icon;
+                return (
+                  <IconButton key={index} onClick={n.action} color="inherit" >
+                    <TempIcon />
+                  </IconButton>
+                )
+              })
+            }
+          </div>
           <div className={classes.sectionDesktop}>
             <IconButton aria-label="show 4 new mails" color="inherit">
               <Badge badgeContent={4} color="secondary">
