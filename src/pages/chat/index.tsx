@@ -1,6 +1,6 @@
 import React from 'react';
 import { RouteComponentProps } from 'react-router-dom';
-import { Box, colors } from '@material-ui/core';
+import { Box } from '@material-ui/core';
 import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
 
 import ConversationList from './list';
@@ -31,7 +31,7 @@ const ChatPage: React.FC<Porps> = () => {
         </Box>
 
         <Box className={classes.conversation} >
-            <ConversationWindow />
+            <ConversationWindow conversation={{ target: { name: 'admin' } }} />
         </Box>
     </Box>
 }
