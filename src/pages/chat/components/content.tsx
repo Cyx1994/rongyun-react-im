@@ -3,10 +3,8 @@ import { Box, useScrollTrigger, Zoom, Fab, RootRef } from '@material-ui/core';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 
-import { RongMessage } from '../../../interface';
-
 interface Props {
-    history: RongMessage[];
+    history: RongIMLib.Message[];
 }
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({

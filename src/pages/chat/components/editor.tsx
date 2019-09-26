@@ -2,11 +2,9 @@ import React from 'react';
 import { Box, Input, InputAdornment, IconButton, colors } from '@material-ui/core';
 import SendIcon from '@material-ui/icons/Send';
 
-import { MessagePrototype } from '../../../interface';
-
 interface Props {
-    editing?: MessagePrototype;
-    onSend: (message: MessagePrototype) => void
+    draft?: string;
+    onSend: (message: string) => void
 }
 
 export default (props: Props) => {
@@ -23,7 +21,7 @@ export default (props: Props) => {
                 <InputAdornment position="end">
                     <IconButton
                         aria-label="toggle password visibility"
-                        onClick={() => props.onSend({ message })}
+                        onClick={() => props.onSend(message)}
                     >
                         <SendIcon />
                     </IconButton>

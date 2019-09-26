@@ -8,7 +8,7 @@ const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         sider: {
             width: '100%',
-            maxWidth: 380,
+            maxWidth: 280,
             backgroundColor: theme.palette.background.default,
         },
         conversation: {
