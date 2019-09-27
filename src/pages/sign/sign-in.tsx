@@ -1,8 +1,12 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
 import { Box, TextField, Button } from '@material-ui/core';
 import useForm, { FormMethods } from 'rc-form-hooks';
 import { toast } from 'react-toastify';
+
+import http from '../../utils/http';
+import Api from '../../utils/api';
 
 type AccountInfo = {
     username: string,
@@ -18,6 +22,11 @@ const SignInPage: React.FC<RouteComponentProps> = ({ history }) => {
         validateFields()
             .then(v => {
                 console.log(v);
+                http.post(Api.auth.getToken, {
+                    userId: v.username
+                }).then(res=>{
+                    console.log(res);
+                });
                 history.push('/home');
             })
             .catch(e => toast.error(e.message));
@@ -42,4 +51,8 @@ const SignInPage: React.FC<RouteComponentProps> = ({ history }) => {
     );
 }
 
-export default SignInPage;
+const mapDispatchToProps = (dispath: any) => ({
+
+})
+
+export default connect(null, mapDispatchToProps)(SignInPage);

@@ -20,6 +20,6 @@
     "jsx": "react"
   },
   "include": [
-    "src", "RongIMLib-2.5.0.d.ts"
+    "src", "RongIMLib-2.5.0.d.ts", "sha1.d.ts"
   ]
 }

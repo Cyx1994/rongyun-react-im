@@ -1,11 +1,9 @@
-
+import Config from '../config';
 const RongIMClient = RongIMLib.RongIMClient;
-
-const appKey = '8luwapkv8jopl';
 
 export class Client {
     static init(token: string, onReceived: any, params?: any): Promise<void> {
-        RongIMClient.init(appKey);
+        RongIMClient.init(Config.appKey);
         this.listenConnectStatus();
         this.listenMessage(onReceived);
         return this.connect(token);

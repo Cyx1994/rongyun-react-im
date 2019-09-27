@@ -25,6 +25,7 @@ class ConversationActions {
             RongIMClient.getInstance().getConversationList({
                 onSuccess: function (list: RongIMLib.Conversation[]) {
                     // list => 会话列表集合
+                    console.log('conversationList :', list);
                     dispatch(_this.setList(list));
                 },
                 onError: function (error) {
