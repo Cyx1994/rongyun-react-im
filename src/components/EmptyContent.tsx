@@ -14,7 +14,7 @@ export default () => (
                 />
                 <CardContent>
                     <Typography gutterBottom variant="h5" component="h2">
-                        没有内容
+                        No Content
           </Typography>
                     <Typography variant="body2" color="textSecondary" component="p">
                         该项目是用Material UI实现，具体使用方法请
@@ -24,10 +24,10 @@ export default () => (
             </CardActionArea>
             <CardActions>
                 <Button size="small" color="primary" onClick={() => console.log('email: ljj1994@vip.qq.com')}>
-                    工作交流
+                    EMAIL
         </Button>
                 <Button size="small" color="primary" onClick={() => console.log('tel: 18161226502')}>
-                    联系方式
+                    CONTACT ME
         </Button>
             </CardActions>
         </Card>

@@ -19,13 +19,14 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 interface Props {
-    data: Conversation[]
+    data: Conversation[],
+    onSelect: (target: Conversation) => void,
 }
 
-const ConversationList: React.FC<Props> = ({ data }) => {
+const ConversationList: React.FC<Props> = ({ data, onSelect }) => {
     const classes = useStyles();
     const defaultItem: Conversation = {
-        conversationTitle: 'test-c',
+        conversationTitle: 'empty_',
         conversationType: RongIMLib.ConversationType.PRIVATE,
         draft: '',
         isTop: false,
@@ -34,11 +35,11 @@ const ConversationList: React.FC<Props> = ({ data }) => {
         objectName: 'huihua',
         receivedStatus: RongIMLib.ReceivedStatus.UNREAD,
         receivedTime: new Date().getTime(),
-        senderUserId: 'empty_',
-        senderUserName: 'empty_',
+        senderUserId: 'admin',
+        senderUserName: 'admin',
         sentStatus: RongIMLib.SentStatus.SENT,
         sentTime: new Date().getTime(),
-        targetId: 'admin',
+        targetId: 'empty_',
         unreadMessageCount: 12,
         senderPortraitUri: 'http://baidu.com',
         isHidden: false,
@@ -46,20 +47,20 @@ const ConversationList: React.FC<Props> = ({ data }) => {
         hasUnreadMention: false,
         _readTime: new Date().getTime(),
         setTop: () => { },
-        latestMessage: '',
+        latestMessage: 'lunch time!',
     };
     return <List className={classes.layout}>
         {
             data.concat(defaultItem).map((c, index) => (
                 <div key={c.targetId}>
-                    <ListItem button>
+                    <ListItem button onClick={() => onSelect(c)}>
                         <ListItemAvatar>
                             <Avatar>
                                 <AccessibleSharpIcon />
                             </Avatar>
                         </ListItemAvatar>
                         <ListItemText primary={c.senderUserName || c.conversationTitle}
-                            secondary={c.draft ? 'draft:' + c.draft : c.mentionedMsg}
+                            secondary={c.draft ? 'draft:' + c.draft : (c.mentionedMsg ? '@You ' + c.mentionedMsg : c.latestMessage)}
                         />
                         <ListItemSecondaryAction>
                             <Typography >{moment(c.receivedTime).format('MM-DD')}</Typography>

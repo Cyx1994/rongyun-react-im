@@ -14,14 +14,14 @@ export default (props: Props) => {
             autoFocus
             rows={6}
             rowsMax={6}
-            placeholder="context"
+            placeholder="Input something..."
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             endAdornment={
                 <InputAdornment position="end">
                     <IconButton
                         aria-label="toggle password visibility"
-                        onClick={() => props.onSend(message)}
+                        onClick={() => { props.onSend(message); setMessage('') }}
                     >
                         <SendIcon />
                     </IconButton>

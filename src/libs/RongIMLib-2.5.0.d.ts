@@ -27,7 +27,7 @@ declare module RongIMLib {
     interface SendMessageCallback {
         onError(error: ErrorCode, result?: Message): void;
         onSuccess(result?: Message): void;
-        onBefore(messageId: any): void;
+        onBefore?(messageId: any): void;
     }
     interface GetHistoryMessagesCallback {
         onError(error: ErrorCode): void;
@@ -517,6 +517,7 @@ declare module RongIMLib {
 declare module RongIMLib {
     abstract class MessageContent {
         messageName: string;
+        content: string;
         constructor(data?: any);
         static obtain(): MessageContent;
         abstract encode(): string;

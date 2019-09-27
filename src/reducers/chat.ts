@@ -1,16 +1,23 @@
-import { SET_CONVERSATION_LIST, PUSH_CONVERSATION, STICK_CONVERSATION, REMOVE_CONVERSATION } from '../actions/chat';
-import { AnyAction } from 'redux'
-import { Conversation } from '../interface';
+import {
+    SET_CONVERSATION_LIST, PUSH_CONVERSATION, STICK_CONVERSATION, REMOVE_CONVERSATION,
+    SET_CONVERSATION_TARGET,
+    SET_CONVERSATION_HISTORY, PUSH_CONVERSATION_HISTORY, CLEAR_CONVERSATION_HISTORY
+} from '../actions/chat';
+import { Reducer } from 'redux';
+import { Conversation, Message } from '../interface';
 
 interface State {
-    conversationList: Conversation[]
+    conversationList: Conversation[];
+    target?: Conversation;
+    chatHistory: {
+        [key: string]: Message[]
+    };
 }
 
-const initialState: State = {
+const ChatReducer: Reducer<State> = (state = {
     conversationList: [],
-}
-
-export default (state = initialState, action: AnyAction) => {
+    chatHistory: {},
+}, action) => {
     switch (action.type) {
         case SET_CONVERSATION_LIST: {
             return {
@@ -50,6 +57,53 @@ export default (state = initialState, action: AnyAction) => {
                 return state;
             }
         }
+        case SET_CONVERSATION_TARGET: {
+            return {
+                ...state,
+                target: action.data
+            }
+        }
+        case SET_CONVERSATION_HISTORY: {
+            if (!action.id) {
+                return state;
+            }
+            let temp = { ...state.chatHistory };
+            temp[action.id] = action.data;
+            return {
+                ...state,
+                chatHistory: temp,
+            };
+        }
+        case PUSH_CONVERSATION_HISTORY: {
+            if (!action.id) {
+                return state;
+            }
+            let temp = { ...state.chatHistory };
+            let history = temp[action.id];
+            if (!history) {
+                history = [action.data]
+            } else {
+                history.push(action.data);
+            }
+            temp[action.id] = history;
+            return {
+                ...state,
+                chatHistory: temp
+            };
+        }
+        case CLEAR_CONVERSATION_HISTORY: {
+            if (!action.id || !state.chatHistory[action.id]) {
+                return state;
+            }
+            let temp = { ...state.chatHistory };
+            delete temp[action.id];
+            return {
+                ...state,
+                chatHistory: temp,
+            };
+        }
         default: return state;
     }
 }
+
+export default ChatReducer;

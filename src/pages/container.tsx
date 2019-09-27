@@ -5,18 +5,19 @@ import { Routes, Navigators } from './router';
 import { ToastContainer } from 'react-toastify';
 import { BaseLayout } from '../layout';
 
-import { conversationActions } from '../actions/chat';
+import { conversationActions, chatActions } from '../actions/chat';
 import * as RongIM from '../libs/RongIM';
 
 interface Props extends RouteComponentProps {
     getConversationList: () => void,
+    onReceivedMessage: (fromId: string, message: RongIMLib.Message) => void
 }
 
-const CommonContainerComponent: React.FC<Props> = ({ history, getConversationList }) => {
+const CommonContainerComponent: React.FC<Props> = ({ history, getConversationList, onReceivedMessage }) => {
     const defaultRedirectTo: string = Routes[0].path + '' || '/';
     useEffect(() => {
         const token = 'JPaYmg0fYWlhwd3qW/wG5FJsuyCZh/ozFooDY7B1hy8KWxLts1AQU3nbc3YMeXu5MAbAchtOR7sa5rfVWVEhCQ==';
-        RongIM.Client.init(token)
+        RongIM.Client.init(token, onReceivedMessage)
             .then(() => {
                 getConversationList();
             })
@@ -41,12 +42,11 @@ const CommonContainerComponent: React.FC<Props> = ({ history, getConversationLis
     </BaseLayout >
 }
 
-const mapStateToProps = (state: any) => ({
-
-})
+const mapStateToProps = (state: any) => ({})
 
 const mapDispatchToProps = (dispatch: any) => ({
     getConversationList: () => dispatch(conversationActions.getList()),
+    onReceivedMessage: (fromId: string, message: RongIMLib.Message) => dispatch(chatActions.pusHistory(fromId, message))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(CommonContainerComponent);

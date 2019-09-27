@@ -4,10 +4,10 @@ const RongIMClient = RongIMLib.RongIMClient;
 const appKey = '8luwapkv8jopl';
 
 export class Client {
-    static init(token: string, params?: any): Promise<void> {
+    static init(token: string, onReceived: any, params?: any): Promise<void> {
         RongIMClient.init(appKey);
         this.listenConnectStatus();
-        this.listenMessage();
+        this.listenMessage(onReceived);
         return this.connect(token);
         // 更多参考: http://www.rongcloud.cn/docs/web_api_demo.html
     }
@@ -41,33 +41,38 @@ export class Client {
         });
     }
 
-    static listenMessage(): void {
+    static listenMessage(onReceived: (id: string, msg: RongIMLib.Message) => void): void {
         // 消息监听器
         RongIMClient.setOnReceiveMessageListener({
             // 接收到的消息
-            onReceived: function (message: any) {
+            onReceived: function (message: RongIMLib.Message) {
                 console.log('receieved a message:', message)
                 // 判断消息类型
                 switch (message.messageType) {
                     case RongIMClient.MessageType.TextMessage:
                         // message.content.content => 文字内容
+                        onReceived(message.senderUserId, message);
                         break;
                     case RongIMClient.MessageType.VoiceMessage:
                         // message.content.content => 格式为 AMR 的音频 base64
+                        onReceived(message.senderUserId, message);
                         break;
                     case RongIMClient.MessageType.ImageMessage:
                         // message.content.content => 图片缩略图 base64
                         // message.content.imageUri => 原图 URL
+                        onReceived(message.senderUserId, message);
                         break;
                     case RongIMClient.MessageType.LocationMessage:
                         // message.content.latiude => 纬度
                         // message.content.longitude => 经度
                         // message.content.content => 位置图片 base64
+                        onReceived(message.senderUserId, message);
                         break;
                     case RongIMClient.MessageType.RichContentMessage:
                         // message.content.content => 文本消息内容
                         // message.content.imageUri => 图片 base64
                         // message.content.url => 原图 URL
+                        onReceived(message.senderUserId, message);
                         break;
                     case RongIMClient.MessageType.InformationNotificationMessage:
                         // do something
@@ -149,22 +154,5 @@ export class Client {
             rate: [100, 1000, 3000, 6000, 10000]
         };
         RongIMClient.reconnect(callback, config);
-    }
-
-    static getConversationList(count: number = 10): Promise<RongIMLib.Conversation[]> {
-        // 测试环境频道
-        const { PRIVATE } = RongIMLib.ConversationType;
-        return new Promise((resolve, reject) => {
-            RongIMClient.getInstance().getConversationList({
-                onSuccess: function (list: RongIMLib.Conversation[]) {
-                    // list => 会话列表集合
-                    resolve(list);
-                },
-                onError: function (error) {
-                    // do something
-                    reject(error);
-                }
-            }, [PRIVATE], count, false);
-        })
     }
 }
