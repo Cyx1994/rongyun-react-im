@@ -16,3 +16,4 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 发送：编辑文字并发送，RongCloudService 会收到信息。<br>
 接受：通过 [融云API调试工具](https://developer.rongcloud.cn/apitool/) - 消息服务 - 发送单聊消息 , 填写 fromUserId = empty_ , toUserId = admin, 编辑content内容, 页面可接收到该消息。
+ 
