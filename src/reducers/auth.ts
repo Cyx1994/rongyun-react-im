@@ -1,16 +1,22 @@
 import { SET_AUTH, UPDATE_AUTH, CLEAR_AUTH } from '../actions/auth';
 import { AnyAction } from 'redux'
 
-const initialState = {
-    userInfo: {
-        username: ''
-    },
+type State = {
+    token: string,
+    userId: string,
+    name?: string,
+    portraitUri?: string,
+}
+
+const initialState: State = {
+    token: '',
+    userId: '',
 }
 
 export default (state = initialState, action: AnyAction) => {
     switch (action.type) {
         case SET_AUTH: {
-            return state;
+            return action.data;
         }
         case UPDATE_AUTH: {
             return state;

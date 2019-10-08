@@ -5,6 +5,8 @@ import { Box, TextField, Button } from '@material-ui/core';
 import useForm, { FormMethods } from 'rc-form-hooks';
 import { toast } from 'react-toastify';
 
+import { SET_AUTH } from '../../actions/auth';
+
 import http from '../../utils/http';
 import Api from '../../utils/api';
 
@@ -13,7 +15,16 @@ type AccountInfo = {
     password: string,
 }
 
-const SignInPage: React.FC<RouteComponentProps> = ({ history }) => {
+interface Props extends RouteComponentProps {
+    signIn: (auth: {
+        token: string,
+        userId: string,
+        name?: string,
+        portraitUri?: string,
+    }) => void
+}
+
+const SignInPage: React.FC<Props> = ({ history, signIn }) => {
 
     const { getFieldDecorator, validateFields }: FormMethods<AccountInfo> = useForm();
 
@@ -24,12 +35,15 @@ const SignInPage: React.FC<RouteComponentProps> = ({ history }) => {
                 console.log(v);
                 http.post(Api.auth.getToken, {
                     userId: v.username
-                }).then(res=>{
-                    console.log(res);
+                }).then((res: any) => {
+                    delete res.code;
+                    signIn(res);
+                    history.push('/home');
                 });
-                history.push('/home');
             })
-            .catch(e => toast.error(e.message));
+            .catch(e => {
+                toast.error(e.message)
+            });
     };
 
     return (
@@ -52,7 +66,7 @@ const SignInPage: React.FC<RouteComponentProps> = ({ history }) => {
 }
 
 const mapDispatchToProps = (dispath: any) => ({
-
+    signIn: (auth: any) => dispath({ type: SET_AUTH, data: auth })
 })
 
 export default connect(null, mapDispatchToProps)(SignInPage);

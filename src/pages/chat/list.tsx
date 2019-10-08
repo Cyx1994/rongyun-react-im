@@ -25,7 +25,7 @@ interface Props {
 
 const ConversationList: React.FC<Props> = ({ data, onSelect }) => {
     const classes = useStyles();
-    const defaultItem: Conversation = {
+    const defaultItem: Conversation | [] = data.length ? [] : {
         conversationTitle: 'empty_',
         conversationType: RongIMLib.ConversationType.PRIVATE,
         draft: '',
@@ -59,11 +59,11 @@ const ConversationList: React.FC<Props> = ({ data, onSelect }) => {
                                 <AccessibleSharpIcon />
                             </Avatar>
                         </ListItemAvatar>
-                        <ListItemText primary={c.senderUserName || c.conversationTitle}
-                            secondary={c.draft ? 'draft:' + c.draft : (c.mentionedMsg ? '@You ' + c.mentionedMsg : c.latestMessage)}
+                        <ListItemText primary={c.targetId || c.conversationTitle}
+                            secondary={c.draft ? 'draft:' + c.draft : (c.mentionedMsg ? '@You ' + c.mentionedMsg : c.latestMessage.content.content)}
                         />
                         <ListItemSecondaryAction>
-                            <Typography >{moment(c.receivedTime).format('MM-DD')}</Typography>
+                            <Typography >{moment(c.receivedTime || c.sentTime).format('MM-DD')}</Typography>
                         </ListItemSecondaryAction>
                     </ListItem>
                     {index !== data.length && <Divider variant="inset" />}

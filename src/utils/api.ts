@@ -1,5 +1,5 @@
 export default {
-    baseUrl: 'http://api-cn.ronghub.com',
+    baseUrl: '/api',
     auth: {
         getToken: '/user/getToken.json'
     }

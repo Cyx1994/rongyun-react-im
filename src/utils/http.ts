@@ -6,18 +6,17 @@
  * @LastEditors: Please set LastEditors
  */
 import axios from 'axios';
-// import sha1 from './sha1';
+import sha1 from 'sha1';
 import Api from './api';
 import Config from '../config';
+var qs = require('qs');
 
-// const rootHash = new sha1(Config.secret);
-// rootHash.update(Config.HashSeed);
 
 let instance = axios.create({
     timeout: 10000,
     baseURL: Api.baseUrl,
     headers: {
-        "Content-Type": 'application/json',
+        "Content-Type": 'application/x-www-form-urlencoded',
         'RC-App-Key': Config.appKey,
         'RC-Nonce': Config.HashSeed,
     }
@@ -38,7 +37,7 @@ instance.interceptors.request.use(
         //     }
         // }
         config.headers['RC-Timestamp'] = now.toString();
-        // config.headers['RC-Signature'] = rootHash.update(now.toString());
+        config.headers['RC-Signature'] = sha1(Config.secret + Config.HashSeed + now);
         return config;
     },
     error => {
@@ -81,7 +80,7 @@ export default class http {
     }
     static async post(url: string, params?: object) {
         console.log(url, params);
-        return await instance.post(url, params);
+        return await instance.post(url, qs.stringify(params));
     }
     // TODO: other请求方式
 }
