@@ -9,6 +9,10 @@ interface Props {
 
 export default (props: Props) => {
     const [message, setMessage] = React.useState('');
+    const onSend = () => {
+        props.onSend(message);
+        setMessage('');
+    }
     return <Box height={220} p={2} style={{ backgroundColor: colors.lightGreen[200] }}>
         <Input multiline fullWidth
             autoFocus
@@ -21,7 +25,7 @@ export default (props: Props) => {
                 <InputAdornment position="end">
                     <IconButton
                         aria-label="toggle password visibility"
-                        onClick={() => { props.onSend(message); setMessage('') }}
+                        onClick={() => onSend()}
                     >
                         <SendIcon />
                     </IconButton>

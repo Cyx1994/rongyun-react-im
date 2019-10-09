@@ -6,23 +6,45 @@ import { ToastContainer } from 'react-toastify';
 import { BaseLayout } from '../layout';
 
 import { conversationActions, chatActions } from '../actions/chat';
+import { CLEAR_AUTH } from '../actions/auth';
+import { SET_CONVERSATION_TARGET } from '../actions/chat';
 import * as RongIM from '../libs/RongIM';
 
 interface Props extends RouteComponentProps {
-    getConversationList: () => void,
-    onReceivedMessage: (fromId: string, message: RongIMLib.Message) => void
+    token: string;
+    name: string;
+    userId: string;
+    getConversationList: () => void;
+    onReceivedMessage: (fromId: string, message: RongIMLib.Message) => void;
+    signOut: () => void;
 }
 
-const CommonContainerComponent: React.FC<Props> = ({ history, getConversationList, onReceivedMessage }) => {
+const CommonContainerComponent: React.FC<Props> = ({ token, name, userId, history, getConversationList, onReceivedMessage, signOut }) => {
     const defaultRedirectTo: string = Routes[0].path + '' || '/';
+
     useEffect(() => {
-        const token = 'JPaYmg0fYWlhwd3qW/wG5FJsuyCZh/ozFooDY7B1hy8KWxLts1AQU3nbc3YMeXu5MAbAchtOR7sa5rfVWVEhCQ==';
-        RongIM.Client.init(token, onReceivedMessage)
+        if (!token) {
+            history.replace('/sign');
+        }
+        RongIM.Client
+            .init(token, onReceivedMessage)
             .then(() => {
                 getConversationList();
             })
     })
-    return <BaseLayout navigators={Navigators.map(item => ({ icon: item.icon, action: () => history.push(item.url) }))}>
+
+    const handleSignOut = () => {
+        signOut();
+        history.replace('/sign');
+    }
+
+    return <BaseLayout
+        navigators={Navigators.map(item => ({ icon: item.icon, action: () => history.push(item.url) }))}
+        title={name || userId || 'Empty_'}
+        actions={{
+            signOut: handleSignOut
+        }}
+    >
         <Switch>
             {
                 Routes.map((route, index) => <Route key={index} {...route} />)
@@ -42,11 +64,14 @@ const CommonContainerComponent: React.FC<Props> = ({ history, getConversationLis
     </BaseLayout >
 }
 
-const mapStateToProps = (state: any) => ({})
+const mapStateToProps = (state: any) => ({
+    ...state.auth
+})
 
 const mapDispatchToProps = (dispatch: any) => ({
     getConversationList: () => dispatch(conversationActions.getList()),
-    onReceivedMessage: (fromId: string, message: RongIMLib.Message) => dispatch(chatActions.pusHistory(fromId, message))
+    onReceivedMessage: (fromId: string, message: RongIMLib.Message) => dispatch(chatActions.pusHistory(fromId, message)),
+    signOut: () => { dispatch({ type: CLEAR_AUTH }); dispatch({ type: SET_CONVERSATION_TARGET, data: undefined }) }
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(CommonContainerComponent);

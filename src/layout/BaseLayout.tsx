@@ -8,14 +8,19 @@ type Navigate = {
 }
 
 type Props = {
-    navigators?: Navigate[]
+    navigators?: Navigate[],
+    title: string,
+    actions: {
+        [props: string]: any
+    }
 }
 
-const BaseLayout: React.SFC<Props> = ({ children, navigators = [] }) => {
+const BaseLayout: React.SFC<Props> = ({ children, navigators = [], title, actions }) => {
     return <Box height="100%">
-        <AppBarComponent navigators={navigators} />
+        <AppBarComponent navigators={navigators} title={title} actions={actions} />
         {children}
     </Box>
 }
+
 
 export default BaseLayout;

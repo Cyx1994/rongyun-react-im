@@ -15,13 +15,13 @@ interface WindowProps {
 
 
 const ConversationWindow: React.FC<WindowProps> = ({ conversation, onSend, chatHistory }) => {
-    const { conversationTitle, draft } = conversation;
+    const { conversationTitle, draft, targetId } = conversation;
     return (
         <Box display="flex" height="100%" style={{ flexDirection: 'column' }}>
             <CssBaseline />
             <AppBar position="relative" color="secondary">
                 <Toolbar>
-                    <Typography variant="h6">{conversationTitle}</Typography>
+                    <Typography variant="h6">{conversationTitle || targetId}</Typography>
                 </Toolbar>
             </AppBar>
             <Container style={{ flex: 1, overflow: 'hidden' }}>

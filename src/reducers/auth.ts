@@ -22,7 +22,10 @@ export default (state = initialState, action: AnyAction) => {
             return state;
         }
         case CLEAR_AUTH: {
-            return state;
+            return {
+                token: '',
+                userId: '',
+            };
         }
         default: return state;
     }

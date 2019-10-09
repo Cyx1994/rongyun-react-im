@@ -13,8 +13,13 @@ const useStyles = makeStyles((theme: Theme) =>
             height: '100%',
             padding: 0,
             backgroundColor: colors.blue[100],
-
         },
+        lastMsg: {
+            width: '80%',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            whiteSpace: 'nowrap'
+        }
     }),
 );
 
@@ -26,7 +31,7 @@ interface Props {
 const ConversationList: React.FC<Props> = ({ data, onSelect }) => {
     const classes = useStyles();
     const defaultItem: Conversation | [] = data.length ? [] : {
-        conversationTitle: 'empty_',
+        conversationTitle: 'default conversation',
         conversationType: RongIMLib.ConversationType.PRIVATE,
         draft: '',
         isTop: false,
@@ -60,6 +65,7 @@ const ConversationList: React.FC<Props> = ({ data, onSelect }) => {
                             </Avatar>
                         </ListItemAvatar>
                         <ListItemText primary={c.targetId || c.conversationTitle}
+                            secondaryTypographyProps={{ className: classes.lastMsg }}
                             secondary={c.draft ? 'draft:' + c.draft : (c.mentionedMsg ? '@You ' + c.mentionedMsg : c.latestMessage.content.content)}
                         />
                         <ListItemSecondaryAction>
