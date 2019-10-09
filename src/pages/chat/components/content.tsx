@@ -9,8 +9,8 @@ interface Props {
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         fab: {
-            position: 'absolute',
-            bottom: theme.spacing(2),
+            position: 'fixed',
+            top: theme.spacing(20),
             right: theme.spacing(2),
             zIndex: 99
         },
