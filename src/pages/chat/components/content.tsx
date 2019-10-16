@@ -1,10 +1,12 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { Box, useScrollTrigger, Zoom, Fab, RootRef } from '@material-ui/core';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import ConversationMessage from './message';
 interface Props {
     history: RongIMLib.Message[];
+    myId?: string;
 }
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -48,8 +50,7 @@ function ScrollEndFab(props: any) {
 }
 
 
-
-export default (props: Props) => {
+const ConversationContent = (props: Props) => {
     const [scrollArea, setScrollArea] = React.useState();
     React.useEffect(() => {
         scrollToEnd();
@@ -64,7 +65,7 @@ export default (props: Props) => {
             <Box p={2} height="100%" className="scroll-area">
 
                 {
-                    props.history.map(msg => <ConversationMessage key={msg.messageUId} message={msg} />)
+                    props.history.map(msg => <ConversationMessage key={msg.messageUId} message={msg} mine={msg.targetId === props.myId} />)
                 }
                 <ScrollEndFab window={scrollArea}>
                     <Fab color="secondary" size="small" aria-label="scroll back to top">
@@ -76,3 +77,9 @@ export default (props: Props) => {
         </RootRef>
     )
 }
+
+const mapStateToProps = (state: any) => ({
+    myId: state.auth.userId
+})
+
+export default connect(mapStateToProps, null)(ConversationContent);

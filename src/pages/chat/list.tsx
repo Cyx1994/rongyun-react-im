@@ -48,7 +48,7 @@ const ConversationList: React.FC<Props> = ({ data, onSelect }) => {
         unreadMessageCount: 12,
         senderPortraitUri: 'http://baidu.com',
         isHidden: false,
-        mentionedMsg: 'dinner time!',
+        mentionedMsg: "It's a example!",
         hasUnreadMention: false,
         _readTime: new Date().getTime(),
         setTop: () => { },

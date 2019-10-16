@@ -48,17 +48,18 @@ const SignInPage: React.FC<Props> = ({ history, signIn }) => {
 
     return (
         <form onSubmit={handleSubmit}>
-            <Box width={'100%'} height={300} >
+            <Box width={'100%'} height={200}>
                 {getFieldDecorator('username', {
                     rules: [{ required: true, message: 'Please input username!' }],
                     initialValue: '',
-                })(<TextField autoFocus label="username" variant="filled" fullWidth />)}
+                })(<TextField autoFocus label="username" placeholder="any string" variant="filled" fullWidth />)}
                 {getFieldDecorator('password', {
                     rules: [{ required: true, message: 'Please input password!' }],
                     initialValue: '',
                 })(<TextField label="password" variant="filled" fullWidth />)}
-
-                <Button type={'submit'}>submit</Button>
+                <Box display="flex" style={{ justifyContent: 'flex-end' }} >
+                    <Button type={'submit'}>submit</Button>
+                </Box>
             </Box>
         </form>
 
