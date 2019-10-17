@@ -9,6 +9,7 @@ import axios from 'axios';
 import sha1 from 'sha1';
 import Api from './api';
 import Config from '../config';
+import { toast } from 'react-toastify';
 var qs = require('qs');
 
 
@@ -98,4 +99,5 @@ function _isShowLoading(loading: boolean): void {
  */
 function _handleError(error: any): void {
     console.warn('response====> ', error);
+    toast.error(error.msg || error.message || '网络错误');
 } 

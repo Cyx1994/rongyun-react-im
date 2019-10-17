@@ -9,12 +9,14 @@ import { Conversation, Message } from '../../interface';
 interface WindowProps {
     conversation: Conversation;
     chatHistory: Message[],
+    myId: string,
     onSend: (text: string) => void;
 }
 
 
 
-const ConversationWindow: React.FC<WindowProps> = ({ conversation, onSend, chatHistory }) => {
+const ConversationWindow: React.FC<WindowProps> = ({ conversation, onSend, chatHistory, myId }) => {
+
     const { conversationTitle, draft, targetId } = conversation;
     return (
         <Box display="flex" height="100%" style={{ flexDirection: 'column' }}>
@@ -25,7 +27,7 @@ const ConversationWindow: React.FC<WindowProps> = ({ conversation, onSend, chatH
                 </Toolbar>
             </AppBar>
             <Container style={{ flex: 1, overflow: 'hidden' }}>
-                <ConversationContent history={chatHistory} />
+                <ConversationContent history={chatHistory} myId={myId} />
             </Container>
             <ConversationEditor draft={draft} onSend={onSend} />
         </Box>

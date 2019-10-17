@@ -1,12 +1,11 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import { Box, useScrollTrigger, Zoom, Fab, RootRef } from '@material-ui/core';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import ConversationMessage from './message';
 interface Props {
     history: RongIMLib.Message[];
-    myId?: string;
+    myId: string;
 }
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -39,7 +38,6 @@ function ScrollEndFab(props: any) {
         disableHysteresis: true,
         threshold: 100,
     });
-
     return (
         <Zoom in={trigger}>
             <div onClick={scrollToEnd} role="presentation" className={classes.fab}>
@@ -50,11 +48,11 @@ function ScrollEndFab(props: any) {
 }
 
 
-const ConversationContent = (props: Props) => {
+const ConversationContent: React.FC<Props> = ({ history = [], myId }) => {
     const [scrollArea, setScrollArea] = React.useState();
     React.useEffect(() => {
         scrollToEnd();
-    })
+    });
     const getNode = React.useCallback(node => {
         if (node !== null) {
             setScrollArea(node);
@@ -63,9 +61,8 @@ const ConversationContent = (props: Props) => {
     return (
         <RootRef rootRef={getNode}>
             <Box p={2} height="100%" className="scroll-area">
-
                 {
-                    props.history.map(msg => <ConversationMessage key={msg.messageUId} message={msg} mine={msg.targetId === props.myId} />)
+                    history.map(msg => <ConversationMessage key={msg.messageUId} message={msg} mine={msg.targetId === myId} />)
                 }
                 <ScrollEndFab window={scrollArea}>
                     <Fab color="secondary" size="small" aria-label="scroll back to top">
@@ -78,8 +75,4 @@ const ConversationContent = (props: Props) => {
     )
 }
 
-const mapStateToProps = (state: any) => ({
-    myId: state.auth.userId
-})
-
-export default connect(mapStateToProps, null)(ConversationContent);
+export default ConversationContent;

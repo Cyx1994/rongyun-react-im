@@ -29,10 +29,11 @@ interface Porps extends RouteComponentProps {
     setTarget: (target: Conversation) => void,
     onSendTextMsg: (id: string, text: string) => void,
     chatHistory: { [key: string]: Message[] },
+    myId: string,
     target?: Conversation,
 }
 
-const ChatPage: React.FC<Porps> = ({ conversationList, setTarget, target, chatHistory, onSendTextMsg, }) => {
+const ChatPage: React.FC<Porps> = ({ conversationList, setTarget, target, chatHistory, onSendTextMsg, myId }) => {
     const classes = useStyles();
     return <Box display="flex" height="100%">
         <Box className={classes.sider} >
@@ -44,6 +45,7 @@ const ChatPage: React.FC<Porps> = ({ conversationList, setTarget, target, chatHi
                 target ? <ConversationWindow conversation={target}
                     chatHistory={chatHistory[target.targetId] || []}
                     onSend={(text) => onSendTextMsg(target.targetId, text)}
+                    myId={myId}
                 /> : <EmptyContent />
             }
         </Box>
@@ -54,7 +56,8 @@ const mapStateToProps = (state: any) => {
     return {
         conversationList: state.chat.conversationList,
         target: state.chat.target,
-        chatHistory: state.chat.chatHistory
+        chatHistory: state.chat.chatHistory,
+        myId: state.auth.userId,
     }
 }
 
