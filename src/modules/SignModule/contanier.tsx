@@ -3,7 +3,7 @@ import { Redirect, Route } from 'react-router-dom';
 import { Container, Paper, Typography, Theme, createStyles, makeStyles } from '@material-ui/core';
 import { ToastContainer } from 'react-toastify';
 
-import SignInPage from './sign-in';
+import SignInPage from './pages/sign-in';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({

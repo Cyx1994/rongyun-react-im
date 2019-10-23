@@ -5,7 +5,7 @@ import { Box, TextField, Button } from '@material-ui/core';
 import useForm, { FormMethods } from 'rc-form-hooks';
 import { toast } from 'react-toastify';
 
-import { authActions, AuthRequestParams } from '../../actions/auth';
+import { authActions, AuthRequestParams } from '../action';
 
 interface Props extends RouteComponentProps {
     signIn: (authParams: AuthRequestParams, cb: () => void) => void

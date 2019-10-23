@@ -1,9 +1,9 @@
 import React from 'react';
 import { AppBar, Toolbar, Container, Typography, CssBaseline, Box } from '@material-ui/core';
-import ConversationContent from './components/content';
-import ConversationEditor from './components/editor';
+import ConversationContent from './conversation-content';
+import ConversationEditor from './message-editor';
 
-import { Conversation, Message } from '../../interface';
+import { Conversation, Message } from '../../../interface';
 
 
 interface WindowProps {

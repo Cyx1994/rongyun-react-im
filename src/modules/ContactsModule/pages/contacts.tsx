@@ -22,7 +22,7 @@ interface Porps extends RouteComponentProps {
 
 }
 
-const ContactPage: React.FC<Porps> = () => {
+const ContactScreen: React.FC<Porps> = () => {
     const classes = useStyles();
     return <Box display="flex" height="100%">
         <Box className={classes.sider} />
@@ -30,4 +30,4 @@ const ContactPage: React.FC<Porps> = () => {
     </Box>
 }
 
-export default ContactPage;
+export default ContactScreen;

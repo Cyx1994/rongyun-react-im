@@ -1,15 +1,17 @@
 import { RouteProps } from 'react-router-dom';
+
+import { ChatScreen } from '../modules/ChatModule';
+import { ContactScreen } from '../modules/ContactsModule';
+import ExtraPage from './extra';
+
 import ChatIcon from '@material-ui/icons/Chat';
 import ContactsIcon from '@material-ui/icons/Contacts';
 import EmojiSymbolsIcon from '@material-ui/icons/EmojiSymbols';
 
-import ChatPage from './chat';
-import ContactPage from './contact';
-import ExtraPage from './extra';
 
 const Routes: RouteProps[] = [
-    { path: '/home/chat', component: ChatPage },
-    { path: '/home/contact', component: ContactPage },
+    { path: '/home/chat', component: ChatScreen },
+    { path: '/home/contact', component: ContactScreen },
     { path: '/home/extra', component: ExtraPage }
 ];
 

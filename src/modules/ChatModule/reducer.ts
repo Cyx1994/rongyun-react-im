@@ -1,10 +1,12 @@
 import {
     SET_CONVERSATION_LIST, PUSH_CONVERSATION, STICK_CONVERSATION, REMOVE_CONVERSATION,
     SET_CONVERSATION_TARGET,
+} from './actions/conversation';
+import {
     SET_CONVERSATION_HISTORY, PUSH_CONVERSATION_HISTORY, CLEAR_CONVERSATION_HISTORY
-} from '../actions/chat';
+} from './actions/message';
 import { Reducer } from 'redux';
-import { Conversation, Message } from '../interface';
+import { Conversation, Message } from './interface';
 
 interface State {
     conversationList: Conversation[];

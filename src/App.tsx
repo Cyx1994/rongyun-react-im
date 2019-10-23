@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom'
 import CommonContainerComponent from './pages/container';
-import SignScreen from './pages/sign';
+import { SignScreen } from './modules/SignModule';
 
 import './App.css';
 import 'react-toastify/dist/ReactToastify.css';

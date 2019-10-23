@@ -1,5 +1,5 @@
-import http from '../utils/http';
-import Api from '../utils/api';
+import http from '../../utils/http';
+import Api from '../../utils/api';
 
 export const SET_AUTH = 'AUTH/SET';
 export const UPDATE_AUTH = 'AUTH/UPDATE';
@@ -31,8 +31,13 @@ class AuthActions {
                 })
         }
     }
+    signOut() {
+        return (dispatch: any) => {
+            
+        }
+    }
 }
 
-const authActions = new AuthActions()
+const authActions = new AuthActions();
 
 export { authActions };

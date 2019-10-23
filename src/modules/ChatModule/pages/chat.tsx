@@ -4,12 +4,12 @@ import { connect } from 'react-redux';
 import { Box } from '@material-ui/core';
 import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
 
-import ConversationList from './list';
-import ConversationWindow from './conversation';
-import EmptyContent from '../../components/EmptyContent';
-import { conversationActions, chatActions, SET_CONVERSATION_TARGET } from '../../actions/chat';
-
-import { Conversation, Message } from '../../interface';
+import ConversationList from '../components/conversation-list';
+import ConversationWindow from '../components/conversation';
+import EmptyContent from '../components/empty-conversation';
+import { conversationActions } from '../actions/conversation';
+import { messageActions } from '../actions/message';
+import { Conversation, Message } from '../interface';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -33,7 +33,7 @@ interface Porps extends RouteComponentProps {
     target?: Conversation,
 }
 
-const ChatPage: React.FC<Porps> = ({ conversationList, setTarget, target, chatHistory, onSendTextMsg, myId }) => {
+const ChatScreen: React.FC<Porps> = ({ conversationList, setTarget, target, chatHistory, onSendTextMsg, myId }) => {
     const classes = useStyles();
     return <Box display="flex" height="100%">
         <Box className={classes.sider} >
@@ -63,8 +63,8 @@ const mapStateToProps = (state: any) => {
 
 const mapDispatchToProps = (dispatch: any) => ({
     getConversationList: () => dispatch(conversationActions.getList()),
-    setTarget: (target: Conversation) => dispatch({ type: SET_CONVERSATION_TARGET, data: target }),
-    onSendTextMsg: (id: string, text: string) => dispatch(chatActions.sendTextMsg(id, text))
+    setTarget: (target: Conversation) => dispatch(conversationActions.setTarget(target)),
+    onSendTextMsg: (id: string, text: string) => dispatch(messageActions.sendTextMsg(id, text))
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(ChatPage);
+export default connect(mapStateToProps, mapDispatchToProps)(ChatScreen);

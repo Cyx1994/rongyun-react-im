@@ -4,7 +4,7 @@ import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
 import AccessibleSharpIcon from '@material-ui/icons/AccessibleSharp';
 
 import moment from 'moment';
-import { Conversation } from '../../interface';
+import { Conversation } from '../../../interface';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({

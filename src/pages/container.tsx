@@ -5,9 +5,8 @@ import { Routes, Navigators } from './router';
 import { ToastContainer } from 'react-toastify';
 import { BaseLayout } from '../layout';
 
-import { conversationActions, chatActions } from '../actions/chat';
-import { CLEAR_AUTH } from '../actions/auth';
-import { SET_CONVERSATION_TARGET } from '../actions/chat';
+import { conversationActions, messageActions } from '../modules/ChatModule';
+import { authActions } from '../modules/SignModule'
 import * as RongIM from '../libs/RongIM';
 
 interface Props extends RouteComponentProps {
@@ -70,8 +69,8 @@ const mapStateToProps = (state: any) => ({
 
 const mapDispatchToProps = (dispatch: any) => ({
     getConversationList: () => dispatch(conversationActions.getList()),
-    onReceivedMessage: (fromId: string, message: RongIMLib.Message) => dispatch(chatActions.pusHistory(fromId, message)),
-    signOut: () => { dispatch({ type: CLEAR_AUTH }); dispatch({ type: SET_CONVERSATION_TARGET, data: undefined }) }
+    onReceivedMessage: (fromId: string, message: RongIMLib.Message) => dispatch(messageActions.pushHistory(fromId, message)),
+    signOut: () => { dispatch(authActions.signOut); dispatch(conversationActions.setTarget()) }
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(CommonContainerComponent);
