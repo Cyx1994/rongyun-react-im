@@ -62,7 +62,6 @@ const mapStateToProps = (state: any) => {
 }
 
 const mapDispatchToProps = (dispatch: any) => ({
-    getConversationList: () => dispatch(conversationActions.getList()),
     setTarget: (target: Conversation) => dispatch(conversationActions.setTarget(target)),
     onSendTextMsg: (id: string, text: string) => dispatch(messageActions.sendTextMsg(id, text))
 })

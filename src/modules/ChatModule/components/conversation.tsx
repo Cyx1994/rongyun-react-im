@@ -3,7 +3,7 @@ import { AppBar, Toolbar, Container, Typography, CssBaseline, Box } from '@mater
 import ConversationContent from './conversation-content';
 import ConversationEditor from './message-editor';
 
-import { Conversation, Message } from '../../../interface';
+import { Conversation, Message } from '../interface';
 
 
 interface WindowProps {

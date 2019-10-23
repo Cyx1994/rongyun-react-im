@@ -3,7 +3,7 @@ import { Box, ListItem, ListItemAvatar, ListItemText, Avatar } from '@material-u
 import FaceIcon from '@material-ui/icons/Face';
 import moment from 'moment';
 
-import { Message } from '../../../interface';
+import { Message } from '../interface';
 type Props = {
     message: Message,
     mine?: boolean

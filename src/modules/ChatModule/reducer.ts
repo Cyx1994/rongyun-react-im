@@ -1,6 +1,6 @@
 import {
     SET_CONVERSATION_LIST, PUSH_CONVERSATION, STICK_CONVERSATION, REMOVE_CONVERSATION,
-    SET_CONVERSATION_TARGET,
+    SET_CONVERSATION_TARGET, CLEAR_CONVERSATION,
 } from './actions/conversation';
 import {
     SET_CONVERSATION_HISTORY, PUSH_CONVERSATION_HISTORY, CLEAR_CONVERSATION_HISTORY
@@ -57,6 +57,12 @@ const ChatReducer: Reducer<State> = (state = {
                 };
             } else {
                 return state;
+            }
+        }
+        case CLEAR_CONVERSATION: {
+            return {
+                ...state,
+                conversationList: []
             }
         }
         case SET_CONVERSATION_TARGET: {

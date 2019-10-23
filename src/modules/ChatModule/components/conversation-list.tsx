@@ -1,10 +1,10 @@
 import React from 'react';
-import { colors, List, ListItem, ListItemText, ListItemAvatar, ListItemSecondaryAction, Avatar, Typography, Divider } from '@material-ui/core';
+import { colors, List, ListItem, ListItemText, ListItemAvatar, ListItemSecondaryAction, Avatar, Typography, Divider, Badge } from '@material-ui/core';
 import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
 import AccessibleSharpIcon from '@material-ui/icons/AccessibleSharp';
 
 import moment from 'moment';
-import { Conversation } from '../../../interface';
+import { Conversation } from '../interface';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -19,6 +19,12 @@ const useStyles = makeStyles((theme: Theme) =>
             overflow: 'hidden',
             textOverflow: 'ellipsis',
             whiteSpace: 'nowrap'
+        },
+        draftLabel: {
+            color: colors.pink[900]
+        },
+        mentionLabel: {
+            color: colors.lightBlue[900]
         }
     }),
 );
@@ -30,6 +36,7 @@ interface Props {
 
 const ConversationList: React.FC<Props> = ({ data, onSelect }) => {
     const classes = useStyles();
+    /* 演示会话 */
     const defaultItem: Conversation | [] = data.length ? [] : {
         conversationTitle: 'default conversation',
         conversationType: RongIMLib.ConversationType.PRIVATE,
@@ -39,11 +46,11 @@ const ConversationList: React.FC<Props> = ({ data, onSelect }) => {
         notificationStatus: RongIMLib.ConversationNotificationStatus.DO_NOT_DISTURB,
         objectName: 'huihua',
         receivedStatus: RongIMLib.ReceivedStatus.UNREAD,
-        receivedTime: new Date().getTime(),
+        receivedTime: 1571813163484,
         senderUserId: 'empty_',
         senderUserName: 'empty_',
         sentStatus: RongIMLib.SentStatus.SENT,
-        sentTime: new Date().getTime(),
+        sentTime: 1571811663484,
         targetId: 'empty_',
         unreadMessageCount: 12,
         senderPortraitUri: 'http://baidu.com',
@@ -52,31 +59,59 @@ const ConversationList: React.FC<Props> = ({ data, onSelect }) => {
         hasUnreadMention: false,
         _readTime: new Date().getTime(),
         setTop: () => { },
-        latestMessage: 'lunch time!',
+        latestMessage: { content: { content: 'lunch time!' } },
     };
     return <List className={classes.layout}>
         {
             data.concat(defaultItem).map((c, index) => (
                 <div key={c.targetId}>
+
                     <ListItem button onClick={() => onSelect(c)}>
                         <ListItemAvatar>
-                            <Avatar>
-                                <AccessibleSharpIcon />
-                            </Avatar>
+                            <Badge badgeContent={c.unreadMessageCount} color="secondary">
+                                <Avatar>
+                                    <AccessibleSharpIcon />
+                                </Avatar>
+                            </Badge>
                         </ListItemAvatar>
-                        <ListItemText primary={c.targetId || c.conversationTitle}
+                        <ListItemText primary={c.conversationTitle || c.targetId}
                             secondaryTypographyProps={{ className: classes.lastMsg }}
-                            secondary={c.draft ? 'draft:' + c.draft : (c.mentionedMsg ? '@You ' + c.mentionedMsg : c.latestMessage.content.content)}
+                            secondary={c.draft ? <span><span className={classes.draftLabel} >Draft:</span> {c.draft} </span>
+                                : (c.mentionedMsg ? <span> <span className={classes.mentionLabel} >@You</span>  {c.mentionedMsg}</span>
+                                    : c.latestMessage.content.content)}
                         />
                         <ListItemSecondaryAction>
-                            <Typography >{moment(c.receivedTime || c.sentTime).format('MM-DD')}</Typography>
+                            <Typography >{timeRules(goodTime(c.sentTime, c.receivedTime))}</Typography>
                         </ListItemSecondaryAction>
                     </ListItem>
-                    {index !== data.length && <Divider variant="inset" />}
+                    {index !== data.length - 1 && <Divider variant="inset" />}
                 </div>
             ))
         }
     </List>
+}
+
+const timeRules = (time: number = 0) => {
+    const now = moment().valueOf();
+
+    const temp = now - time;
+    if (temp < 5 * 3600) {
+        return '刚刚';
+    } else if (temp < moment().startOf('day').valueOf()) {
+        return moment(time).format('HH:mm');
+    } else if (temp < moment().startOf('week').valueOf()) {
+        return moment(time).format('e');
+    } else {
+        return moment(time).format('MM-DD');
+    }
+}
+
+const goodTime = (sent?: number, received?: number) => {
+    if (sent && received) {
+        return Math.max(sent, received);
+    } else {
+        return sent || received;
+    }
 }
 
 export default ConversationList;

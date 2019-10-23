@@ -25,12 +25,13 @@ const CommonContainerComponent: React.FC<Props> = ({ token, name, userId, histor
         if (!token) {
             history.replace('/sign');
         }
+        /* 需全局接受消息,则程序在加载钱需初始化 */
         RongIM.Client
             .init(token, onReceivedMessage)
             .then(() => {
                 getConversationList();
             })
-    })
+    });
 
     const handleSignOut = () => {
         signOut();
@@ -38,8 +39,8 @@ const CommonContainerComponent: React.FC<Props> = ({ token, name, userId, histor
     }
 
     return <BaseLayout
-        navigators={Navigators.map(item => ({ icon: item.icon, action: () => history.push(item.url) }))}
         title={name || userId || 'Empty_'}
+        navigators={Navigators.map(item => ({ icon: item.icon, action: () => history.push(item.url) }))}
         actions={{
             signOut: handleSignOut
         }}

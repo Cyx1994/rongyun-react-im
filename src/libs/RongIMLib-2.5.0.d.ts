@@ -451,7 +451,7 @@ declare module RongIMLib {
         saveTextMessageDraft(conversationType: ConversationType, targetId: string, value: string): boolean;
         searchConversationByContent(keyword: string, callback: ResultCallback<Conversation[]>, conversationTypes?: ConversationType[]): void;
         searchMessageByContent(conversationType: ConversationType, targetId: string, keyword: string, timestamp: number, count: number, total: number, callback: ResultCallback<Message[]>): void;
-        clearConversations(callback: ResultCallback<boolean>, ...conversationTypes: ConversationType[]): void;
+        clearConversations(callback: ResultCallback<boolean>, conversationTypes?: ConversationType[]): void;
         getConversation(conversationType: ConversationType, targetId: string, callback: ResultCallback<Conversation>): void;
         pottingConversation(tempConver: any): void;
         addConversation(conversation: Conversation, callback: any): void;
@@ -988,8 +988,8 @@ declare module RongIMLib {
         mentionedMsg: any;
         hasUnreadMention: boolean;
         _readTime: number;
-        constructor(conversationTitle?: string, conversationType?: ConversationType, draft?: string, isTop?: boolean, latestMessage?: any, latestMessageId?: string, notificationStatus?: ConversationNotificationStatus, objectName?: string, receivedStatus?: ReceivedStatus, receivedTime?: number, senderUserId?: string, senderUserName?: string, sentStatus?: SentStatus, sentTime?: number, targetId?: string, unreadMessageCount?: number, senderPortraitUri?: string, isHidden?: boolean, mentionedMsg?: any, hasUnreadMention?: boolean, _readTime?: number);
         setTop(): void;
+        constructor(conversationTitle?: string, conversationType?: ConversationType, draft?: string, isTop?: boolean, latestMessage?: any, latestMessageId?: string, notificationStatus?: ConversationNotificationStatus, objectName?: string, receivedStatus?: ReceivedStatus, receivedTime?: number, senderUserId?: string, senderUserName?: string, sentStatus?: SentStatus, sentTime?: number, targetId?: string, unreadMessageCount?: number, senderPortraitUri?: string, isHidden?: boolean, mentionedMsg?: any, hasUnreadMention?: boolean, _readTime?: number);
     }
     class Discussion {
         creatorId: string;
