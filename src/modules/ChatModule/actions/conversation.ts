@@ -11,6 +11,7 @@ const RongIMClient = RongIMLib.RongIMClient;
 
 class ConversationActions {
     setList = (list: Conversation[]) => ({ type: SET_CONVERSATION_LIST, data: list })
+    resetList = () => ({ type: SET_CONVERSATION_LIST, data: [] })
     getList = (count: number = 15) => {
         const _this = this;
         return (dispatch: any) => {
@@ -75,6 +76,7 @@ class ConversationActions {
         }
     }
     setTarget = (target?: Conversation) => ({ type: SET_CONVERSATION_TARGET, data: target })
+
 }
 
 const conversationActions = new ConversationActions();

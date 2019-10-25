@@ -3,7 +3,8 @@ import {
     SET_CONVERSATION_TARGET, CLEAR_CONVERSATION,
 } from './actions/conversation';
 import {
-    SET_CONVERSATION_HISTORY, PUSH_CONVERSATION_HISTORY, CLEAR_CONVERSATION_HISTORY
+    SET_CONVERSATION_HISTORY, PUSH_CONVERSATION_HISTORY, CLEAR_CONVERSATION_HISTORY,
+    CLEAR_ALL_CONVERSATION_HISTORY
 } from './actions/message';
 import { Reducer } from 'redux';
 import { Conversation, Message } from './interface';
@@ -86,14 +87,16 @@ const ChatReducer: Reducer<State> = (state = {
             if (!action.id) {
                 return state;
             }
-            let temp = { ...state.chatHistory };
-            let history = temp[action.id];
-            if (!history) {
-                history = [action.data]
-            } else {
-                history.push(action.data);
+            let data = action.data;
+            if (!(action.data instanceof Array)) {
+                data = [data];
             }
-            temp[action.id] = history;
+            let temp = { ...state.chatHistory };
+            if (!temp[action.id]) {
+                temp[action.id] = data
+            } else {
+                temp[action.id].concat(data);
+            }
             return {
                 ...state,
                 chatHistory: temp
@@ -109,6 +112,12 @@ const ChatReducer: Reducer<State> = (state = {
                 ...state,
                 chatHistory: temp,
             };
+        }
+        case CLEAR_ALL_CONVERSATION_HISTORY: {
+            return {
+                ...state,
+                chatHistory: {}
+            }
         }
         default: return state;
     }

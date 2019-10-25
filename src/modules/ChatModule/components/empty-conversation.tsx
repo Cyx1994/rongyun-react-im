@@ -2,7 +2,7 @@ import React from 'react';
 import { Box, Card, CardActionArea, CardMedia, Typography, Button, CardActions, CardContent, Link } from '@material-ui/core';
 import { toast } from 'react-toastify';
 
-export default () => (
+export default ({ onSend }: any) => (
     <Box width="100%" height="100%" display="flex" style={{ justifyContent: 'center', alignItems: 'center' }} >
         <Card style={{ maxWidth: 345 }}>
             <CardActionArea>
@@ -30,6 +30,11 @@ export default () => (
                     console.log('tel: 18161226502');
                 }}>
                     CONTACT ME
+        </Button>
+                <Button size="small" color="primary" onClick={() => {
+                    onSend();
+                }}>
+                    创建新会话
         </Button>
             </CardActions>
         </Card>

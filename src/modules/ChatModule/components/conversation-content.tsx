@@ -4,8 +4,9 @@ import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import ConversationMessage from './message';
 interface Props {
-    history: RongIMLib.Message[];
+    history?: RongIMLib.Message[];
     myId: string;
+    onLoad: () => void;
 }
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -48,11 +49,18 @@ function ScrollEndFab(props: any) {
 }
 
 
-const ConversationContent: React.FC<Props> = ({ history = [], myId }) => {
+const ConversationContent: React.FC<Props> = ({ history, myId, onLoad }) => {
     const [scrollArea, setScrollArea] = React.useState();
     React.useEffect(() => {
         scrollToEnd();
+
     });
+    React.useEffect(() => {
+        if (!history) {
+            onLoad();
+        }
+    }, [history, onLoad])
+    console.log(history);
     const getNode = React.useCallback(node => {
         if (node !== null) {
             setScrollArea(node);
@@ -60,9 +68,9 @@ const ConversationContent: React.FC<Props> = ({ history = [], myId }) => {
     }, []);
     return (
         <RootRef rootRef={getNode}>
-            <Box p={2} height="100%" className="scroll-area">
+            <Box p={1} height="100%" className="scroll-area">
                 {
-                    history.map(msg => <ConversationMessage key={msg.messageUId} message={msg} mine={msg.targetId === myId} />)
+                    history && history.map(msg => <ConversationMessage key={msg.messageUId} message={msg} mine={msg.targetId === myId} />)
                 }
                 <ScrollEndFab window={scrollArea}>
                     <Fab color="secondary" size="small" aria-label="scroll back to top">

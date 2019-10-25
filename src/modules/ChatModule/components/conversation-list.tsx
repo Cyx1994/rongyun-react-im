@@ -36,34 +36,9 @@ interface Props {
 
 const ConversationList: React.FC<Props> = ({ data, onSelect }) => {
     const classes = useStyles();
-    /* 演示会话 */
-    const defaultItem: Conversation | [] = data.length ? [] : {
-        conversationTitle: 'default conversation',
-        conversationType: RongIMLib.ConversationType.PRIVATE,
-        draft: '',
-        isTop: false,
-        latestMessageId: '123',
-        notificationStatus: RongIMLib.ConversationNotificationStatus.DO_NOT_DISTURB,
-        objectName: 'huihua',
-        receivedStatus: RongIMLib.ReceivedStatus.UNREAD,
-        receivedTime: 1571813163484,
-        senderUserId: 'empty_',
-        senderUserName: 'empty_',
-        sentStatus: RongIMLib.SentStatus.SENT,
-        sentTime: 1571811663484,
-        targetId: 'empty_',
-        unreadMessageCount: 12,
-        senderPortraitUri: 'http://baidu.com',
-        isHidden: false,
-        mentionedMsg: "It's a example!",
-        hasUnreadMention: false,
-        _readTime: new Date().getTime(),
-        setTop: () => { },
-        latestMessage: { content: { content: 'lunch time!' } },
-    };
     return <List className={classes.layout}>
         {
-            data.concat(defaultItem).map((c, index) => (
+            data.map((c, index) => (
                 <div key={c.targetId}>
 
                     <ListItem button onClick={() => onSelect(c)}>

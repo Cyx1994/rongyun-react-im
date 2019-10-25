@@ -20,22 +20,23 @@ interface Props extends RouteComponentProps {
 
 const CommonContainerComponent: React.FC<Props> = ({ token, name, userId, history, getConversationList, onReceivedMessage, signOut }) => {
     const defaultRedirectTo: string = Routes[0].path + '' || '/';
-
     useEffect(() => {
-        if (!token) {
-            history.replace('/sign');
-        }
         /* 需全局接受消息,则程序在加载钱需初始化 */
         RongIM.Client
-            .init(token, onReceivedMessage)
+            .init(token.slice(), onReceivedMessage)
             .then(() => {
                 getConversationList();
             })
     });
 
+    useEffect(() => {
+        if (!token) {
+            history.replace('/sign');
+        }
+    }, [token, history])
+
     const handleSignOut = () => {
         signOut();
-        history.replace('/sign');
     }
 
     return <BaseLayout
@@ -71,7 +72,7 @@ const mapStateToProps = (state: any) => ({
 const mapDispatchToProps = (dispatch: any) => ({
     getConversationList: () => dispatch(conversationActions.getList()),
     onReceivedMessage: (fromId: string, message: RongIMLib.Message) => dispatch(messageActions.pushHistory(fromId, message)),
-    signOut: () => { dispatch(authActions.signOut); dispatch(conversationActions.setTarget()) }
+    signOut: () => dispatch(authActions.signOut())
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(CommonContainerComponent);

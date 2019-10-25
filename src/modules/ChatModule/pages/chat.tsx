@@ -28,12 +28,13 @@ interface Porps extends RouteComponentProps {
     conversationList: Conversation[],
     setTarget: (target: Conversation) => void,
     onSendTextMsg: (id: string, text: string) => void,
+    onLoadHistory: (id: string) => void,
     chatHistory: { [key: string]: Message[] },
     myId: string,
     target?: Conversation,
 }
 
-const ChatScreen: React.FC<Porps> = ({ conversationList, setTarget, target, chatHistory, onSendTextMsg, myId }) => {
+const ChatScreen: React.FC<Porps> = ({ conversationList, setTarget, target, chatHistory, onSendTextMsg, onLoadHistory, myId }) => {
     const classes = useStyles();
     return <Box display="flex" height="100%">
         <Box className={classes.sider} >
@@ -43,10 +44,11 @@ const ChatScreen: React.FC<Porps> = ({ conversationList, setTarget, target, chat
         <Box className={classes.conversation} >
             {
                 target ? <ConversationWindow conversation={target}
-                    chatHistory={chatHistory[target.targetId] || []}
+                    chatHistory={chatHistory[target.targetId]}
+                    onLoadHistory={() => onLoadHistory(target.targetId)}
                     onSend={(text) => onSendTextMsg(target.targetId, text)}
                     myId={myId}
-                /> : <EmptyContent />
+                /> : <EmptyContent onSend={()=> onSendTextMsg('empty_', 'hello')} />
             }
         </Box>
     </Box>
@@ -63,7 +65,8 @@ const mapStateToProps = (state: any) => {
 
 const mapDispatchToProps = (dispatch: any) => ({
     setTarget: (target: Conversation) => dispatch(conversationActions.setTarget(target)),
-    onSendTextMsg: (id: string, text: string) => dispatch(messageActions.sendTextMsg(id, text))
+    onSendTextMsg: (id: string, text: string) => dispatch(messageActions.sendTextMsg(id, text)),
+    onLoadHistory: (id: string) => dispatch(messageActions.getHistory(id))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ChatScreen);

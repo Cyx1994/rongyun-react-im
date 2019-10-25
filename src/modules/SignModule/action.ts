@@ -1,5 +1,8 @@
 import http from '../../utils/http';
 import Api from '../../utils/api';
+import { messageActions, conversationActions } from '../ChatModule'
+
+const RongIMClient = RongIMLib.RongIMClient;
 
 export const SET_AUTH = 'AUTH/SET';
 export const UPDATE_AUTH = 'AUTH/UPDATE';
@@ -33,7 +36,13 @@ class AuthActions {
     }
     signOut() {
         return (dispatch: any) => {
-            
+            RongIMClient.getInstance().logout();
+            // RongIMClient.getInstance().disconnect();
+
+            dispatch({ type: CLEAR_AUTH });
+            dispatch(messageActions.resetHistory());
+            dispatch(conversationActions.setTarget());
+            dispatch(conversationActions.resetList());
         }
     }
 }

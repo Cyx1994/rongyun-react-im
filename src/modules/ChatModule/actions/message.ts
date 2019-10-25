@@ -4,14 +4,16 @@ import { Message } from '../interface';
 const SET_CONVERSATION_HISTORY = 'CONVERSATION_HISTORY/SET';
 const PUSH_CONVERSATION_HISTORY = 'CONVERSATION_HISTORY/PUSH';
 const POP_CONVERSATION_HISTORY = 'CONVERSATION_HISTORY/POP';
-const CLEAR_CONVERSATION_HISTORY = 'CONVERSATION_HISTORY/CLEAR'
+const CLEAR_CONVERSATION_HISTORY = 'CONVERSATION_HISTORY/CLEAR';
+const CLEAR_ALL_CONVERSATION_HISTORY = 'CONVERSATION_HISTORY/CLEAR_ALL';
 
 const RongIMClient = RongIMLib.RongIMClient;
 
 
 class MessageActions {
     setHistroy = (id: string, data: Message[]) => ({ type: SET_CONVERSATION_HISTORY, id, data })
-    pushHistory = (id: string, data: Message) => ({ type: PUSH_CONVERSATION_HISTORY, id, data })
+    resetHistory = () => ({ type: CLEAR_ALL_CONVERSATION_HISTORY })
+    pushHistory = (id: string, data: Message | Message[]) => ({ type: PUSH_CONVERSATION_HISTORY, id, data })
     sendTextMsg = (id: string, content: string) => {
         const _this = this;
         return (dispatch: any) => {
@@ -54,8 +56,26 @@ class MessageActions {
             );
         }
     }
+    getHistory = (id: string, conversationType: RongIMLib.ConversationType = RongIMLib.ConversationType.PRIVATE) => {
+        const _this = this;
+        return (dispatch: any) => {
+            RongIMLib.RongIMClient.getInstance().getHistoryMessages(conversationType, id, 0, 20, {
+                onSuccess: function (list, hasMsg) {
+                    /*
+                        list: 获取的历史消息列表
+                        hasMsg: 是否还有历史消息可以获取
+                      */
+                    _this.pushHistory(id, list);
+                },
+                onError: function (error) {
+                    // 请排查：单群聊消息云存储是否开通
+                    console.log('获取历史消息失败', error);
+                }
+            });
+        }
+    }
 }
 
 const messageActions = new MessageActions();
 
-export { messageActions, SET_CONVERSATION_HISTORY, PUSH_CONVERSATION_HISTORY, POP_CONVERSATION_HISTORY, CLEAR_CONVERSATION_HISTORY };
+export { messageActions, SET_CONVERSATION_HISTORY, PUSH_CONVERSATION_HISTORY, POP_CONVERSATION_HISTORY, CLEAR_CONVERSATION_HISTORY, CLEAR_ALL_CONVERSATION_HISTORY };
