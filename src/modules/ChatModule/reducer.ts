@@ -91,11 +91,12 @@ const ChatReducer: Reducer<State> = (state = {
             if (!(action.data instanceof Array)) {
                 data = [data];
             }
+
             let temp = { ...state.chatHistory };
             if (!temp[action.id]) {
                 temp[action.id] = data
             } else {
-                temp[action.id].concat(data);
+                temp[action.id] = temp[action.id].concat(data);
             }
             return {
                 ...state,

@@ -65,7 +65,7 @@ class MessageActions {
                         list: 获取的历史消息列表
                         hasMsg: 是否还有历史消息可以获取
                       */
-                    _this.pushHistory(id, list);
+                    dispatch(_this.pushHistory(id, list));
                 },
                 onError: function (error) {
                     // 请排查：单群聊消息云存储是否开通
