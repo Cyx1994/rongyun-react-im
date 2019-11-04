@@ -1,5 +1,5 @@
-import { Message } from '../interface';
-
+import { Message, Conversation } from '../interface';
+import { conversationActions } from './conversation';
 
 const SET_CONVERSATION_HISTORY = 'CONVERSATION_HISTORY/SET';
 const PUSH_CONVERSATION_HISTORY = 'CONVERSATION_HISTORY/PUSH';
@@ -13,7 +13,18 @@ const RongIMClient = RongIMLib.RongIMClient;
 class MessageActions {
     setHistroy = (id: string, data: Message[]) => ({ type: SET_CONVERSATION_HISTORY, id, data })
     resetHistory = () => ({ type: CLEAR_ALL_CONVERSATION_HISTORY })
-    pushHistory = (id: string, data: Message | Message[]) => ({ type: PUSH_CONVERSATION_HISTORY, id, data })
+    pushHistory = (id: string, data: Message | Message[]) => {
+        return (dispatch: any, getState: any) => {
+            const conversationList: Conversation[] = getState().chat.conversationList;
+            if (conversationList.find(c => c.targetId === id)) {
+                dispatch({ type: PUSH_CONVERSATION_HISTORY, id, data });
+            } else {
+                dispatch(conversationActions.getList());
+                dispatch({ type: PUSH_CONVERSATION_HISTORY, id, data });
+            }
+        }
+
+    }
     sendTextMsg = (id: string, content: string) => {
         const _this = this;
         return (dispatch: any) => {

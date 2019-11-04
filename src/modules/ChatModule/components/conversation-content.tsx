@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Zoom, Fab, RootRef } from '@material-ui/core';
+import { Box, Zoom, Fab, RootRef, Button } from '@material-ui/core';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import ConversationMessage from './message';
@@ -65,6 +65,7 @@ const ConversationContent: React.FC<Props> = ({ history, myId, onLoad }) => {
             scrollToEnd();
         }
     }, [history, onLoad])
+
     const getNode = React.useCallback(node => {
         if (node !== null) {
             setScrollArea(node);
@@ -74,8 +75,8 @@ const ConversationContent: React.FC<Props> = ({ history, myId, onLoad }) => {
     return (
         <RootRef rootRef={getNode}>
             <Box p={1} height="100%" style={{ overflow: 'auto' }} >
-                <Box>
-                    load more
+                <Box display="flex" justifyContent="center">
+                    <Button onClick={() =>{}}>load more</Button>
                 </Box>
                 {
                     history && history.map(msg => <ConversationMessage key={msg.messageUId} message={msg} mine={msg.targetId === myId} />)

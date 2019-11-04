@@ -27,7 +27,7 @@ const ConversationWindow: React.FC<WindowProps> = ({ conversation, onSend, onLoa
                     <Typography variant="h6">{conversationTitle || targetId}</Typography>
                 </Toolbar>
             </AppBar>
-            <Container style={{ flex: 1, overflow: 'hidden' }}>
+            <Container style={{ flex: 1, overflow: 'hidden', padding: 0 }}>
                 <ConversationContent history={chatHistory} myId={myId} onLoad={onLoadHistory} />
             </Container>
             <ConversationEditor draft={draft} onSend={onSend} />

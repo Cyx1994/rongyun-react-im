@@ -93,6 +93,7 @@ const ChatReducer: Reducer<State> = (state = {
             }
 
             let temp = { ...state.chatHistory };
+
             if (!temp[action.id]) {
                 temp[action.id] = data
             } else {

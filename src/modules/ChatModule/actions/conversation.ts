@@ -75,7 +75,12 @@ class ConversationActions {
             })
         }
     }
-    setTarget = (target?: Conversation) => ({ type: SET_CONVERSATION_TARGET, data: target })
+    setTarget = (target?: Conversation) => {
+        return (dispatch: any) => {
+            // read message
+            dispatch({ type: SET_CONVERSATION_TARGET, data: target });
+        }
+    }
 
 }
 
