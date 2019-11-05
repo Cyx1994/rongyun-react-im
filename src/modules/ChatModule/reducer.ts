@@ -4,7 +4,7 @@ import {
 } from './actions/conversation';
 import {
     SET_CONVERSATION_HISTORY, PUSH_CONVERSATION_HISTORY, CLEAR_CONVERSATION_HISTORY,
-    CLEAR_ALL_CONVERSATION_HISTORY
+    CLEAR_ALL_CONVERSATION_HISTORY, SET_CONVERSATION_HISTORY_HASMORE
 } from './actions/message';
 import { Reducer } from 'redux';
 import { Conversation, Message } from './interface';
@@ -15,11 +15,13 @@ interface State {
     chatHistory: {
         [key: string]: Message[]
     };
+    hasMore: boolean;
 }
 
 const ChatReducer: Reducer<State> = (state = {
     conversationList: [],
     chatHistory: {},
+    hasMore: true,
 }, action) => {
     switch (action.type) {
         case SET_CONVERSATION_LIST: {
@@ -33,6 +35,12 @@ const ChatReducer: Reducer<State> = (state = {
                 ...state,
                 conversationList: [...state.conversationList, action.data]
             };
+        }
+        case SET_CONVERSATION_HISTORY_HASMORE: {
+            return {
+                ...state,
+                hasMore: action.has
+            }
         }
         case STICK_CONVERSATION: {
             const targetIndex = state.conversationList.findIndex(c => c.targetId === action.id);

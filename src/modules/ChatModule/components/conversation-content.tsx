@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Box, Zoom, Fab, RootRef, Button } from '@material-ui/core';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
@@ -9,6 +9,7 @@ interface Props {
     history?: RongIMLib.Message[];
     myId: string;
     onLoad: () => void;
+    hasMore: boolean;
 }
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -56,8 +57,9 @@ function ScrollEndFab(props: any) {
 }
 
 
-const ConversationContent: React.FC<Props> = ({ history, myId, onLoad }) => {
-    const [scrollArea, setScrollArea] = React.useState();
+const ConversationContent: React.FC<Props> = ({ history, myId, onLoad, hasMore }) => {
+    const [scrollArea, setScrollArea] = useState();
+
     React.useEffect(() => {
         if (!history) {
             onLoad();
@@ -75,9 +77,12 @@ const ConversationContent: React.FC<Props> = ({ history, myId, onLoad }) => {
     return (
         <RootRef rootRef={getNode}>
             <Box p={1} height="100%" style={{ overflow: 'auto' }} >
-                <Box display="flex" justifyContent="center">
-                    <Button onClick={() =>{}}>load more</Button>
-                </Box>
+                {
+                    hasMore && <Box display="flex" justifyContent="center">
+                        <Button onClick={() => onLoad()}>load more</Button>
+                    </Box>
+                }
+
                 {
                     history && history.map(msg => <ConversationMessage key={msg.messageUId} message={msg} mine={msg.targetId === myId} />)
                 }

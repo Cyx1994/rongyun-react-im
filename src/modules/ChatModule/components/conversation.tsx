@@ -12,12 +12,12 @@ interface WindowProps {
     myId: string,
     onSend: (text: string) => void;
     onLoadHistory: () => void;
+    hasMore: boolean;
 }
 
 
 
-const ConversationWindow: React.FC<WindowProps> = ({ conversation, onSend, onLoadHistory, chatHistory, myId }) => {
-
+const ConversationWindow: React.FC<WindowProps> = ({ conversation, onSend, onLoadHistory, chatHistory, myId, hasMore }) => {
     const { conversationTitle, draft, targetId } = conversation;
     return (
         <Box display="flex" height="100%" style={{ flexDirection: 'column' }}>
@@ -28,7 +28,7 @@ const ConversationWindow: React.FC<WindowProps> = ({ conversation, onSend, onLoa
                 </Toolbar>
             </AppBar>
             <Container style={{ flex: 1, overflow: 'hidden', padding: 0 }}>
-                <ConversationContent history={chatHistory} myId={myId} onLoad={onLoadHistory} />
+                <ConversationContent history={chatHistory} myId={myId} onLoad={onLoadHistory} hasMore={hasMore} />
             </Container>
             <ConversationEditor draft={draft} onSend={onSend} />
         </Box>

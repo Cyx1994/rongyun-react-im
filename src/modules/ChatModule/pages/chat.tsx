@@ -25,16 +25,17 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 interface Porps extends RouteComponentProps {
-    conversationList: Conversation[],
-    setTarget: (target: Conversation) => void,
-    onSendTextMsg: (id: string, text: string) => void,
-    onLoadHistory: (id: string) => void,
-    chatHistory: { [key: string]: Message[] },
-    myId: string,
-    target?: Conversation,
+    conversationList: Conversation[];
+    setTarget: (target: Conversation) => void;
+    onSendTextMsg: (id: string, text: string) => void;
+    onLoadHistory: (id: string) => void;
+    chatHistory: { [key: string]: Message[] };
+    myId: string;
+    target?: Conversation;
+    hasMore: boolean;
 }
 
-const ChatScreen: React.FC<Porps> = ({ conversationList, setTarget, target, chatHistory, onSendTextMsg, onLoadHistory, myId }) => {
+const ChatScreen: React.FC<Porps> = ({ conversationList, setTarget, target, chatHistory, onSendTextMsg, onLoadHistory, myId, hasMore }) => {
     const classes = useStyles();
     return <Box display="flex" height="100%">
         <Box className={classes.sider} >
@@ -48,7 +49,8 @@ const ChatScreen: React.FC<Porps> = ({ conversationList, setTarget, target, chat
                     onLoadHistory={() => onLoadHistory(target.targetId)}
                     onSend={(text) => onSendTextMsg(target.targetId, text)}
                     myId={myId}
-                /> : <EmptyContent onSend={()=> onSendTextMsg('empty_', 'hello')} />
+                    hasMore={hasMore}
+                /> : <EmptyContent onSend={() => onSendTextMsg('empty_', 'hello')} />
             }
         </Box>
     </Box>
@@ -60,6 +62,7 @@ const mapStateToProps = (state: any) => {
         target: state.chat.target,
         chatHistory: state.chat.chatHistory,
         myId: state.auth.userId,
+        hasMore: state.chat.hasMore,
     }
 }
 

@@ -430,7 +430,7 @@ declare module RongIMLib {
         sendTextMessage(conversationType: ConversationType, targetId: string, content: string, sendMessageCallback: SendMessageCallback): void;
         sendRecallMessage(content: any, sendMessageCallback: SendMessageCallback): void;
         insertMessage(conversationType: ConversationType, targetId: string, senderUserId: string, content: Message, callback: ResultCallback<Message>): void;
-        getHistoryMessages(conversationType: ConversationType, targetId: string, timestamp: number, count: number, callback: GetHistoryMessagesCallback, objectname?: string, direction?: boolean): void;
+        getHistoryMessages(conversationType: ConversationType, targetId: string, timestamp: number | null, count: number, callback: GetHistoryMessagesCallback, objectname?: string, direction?: boolean): void;
         setMessageContent(messageId: number, content: any, objectName: string): void;
         getRemoteHistoryMessages(conversationType: ConversationType, targetId: string, timestamp: number, count: number, callback: GetHistoryMessagesCallback): void;
         clearHistoryMessages(params: any, callback: ResultCallback<boolean>): void;

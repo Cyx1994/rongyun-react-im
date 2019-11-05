@@ -6,6 +6,7 @@ const PUSH_CONVERSATION_HISTORY = 'CONVERSATION_HISTORY/PUSH';
 const POP_CONVERSATION_HISTORY = 'CONVERSATION_HISTORY/POP';
 const CLEAR_CONVERSATION_HISTORY = 'CONVERSATION_HISTORY/CLEAR';
 const CLEAR_ALL_CONVERSATION_HISTORY = 'CONVERSATION_HISTORY/CLEAR_ALL';
+const SET_CONVERSATION_HISTORY_HASMORE = 'CONVERSATION_HISTORY_HASMORE/SET';
 
 const RongIMClient = RongIMLib.RongIMClient;
 
@@ -13,6 +14,7 @@ const RongIMClient = RongIMLib.RongIMClient;
 class MessageActions {
     setHistroy = (id: string, data: Message[]) => ({ type: SET_CONVERSATION_HISTORY, id, data })
     resetHistory = () => ({ type: CLEAR_ALL_CONVERSATION_HISTORY })
+    setHasMore = (has: boolean) => ({ type: SET_CONVERSATION_HISTORY_HASMORE, has })
     pushHistory = (id: string, data: Message | Message[]) => {
         return (dispatch: any, getState: any) => {
             const conversationList: Conversation[] = getState().chat.conversationList;
@@ -70,7 +72,7 @@ class MessageActions {
     getHistory = (id: string, conversationType: RongIMLib.ConversationType = RongIMLib.ConversationType.PRIVATE) => {
         const _this = this;
         return (dispatch: any) => {
-            RongIMLib.RongIMClient.getInstance().getHistoryMessages(conversationType, id, 0, 20, {
+            RongIMLib.RongIMClient.getInstance().getHistoryMessages(conversationType, id, null, 20, {
                 onSuccess: function (list, hasMsg) {
                     /*
                         list: 获取的历史消息列表
@@ -89,4 +91,4 @@ class MessageActions {
 
 const messageActions = new MessageActions();
 
-export { messageActions, SET_CONVERSATION_HISTORY, PUSH_CONVERSATION_HISTORY, POP_CONVERSATION_HISTORY, CLEAR_CONVERSATION_HISTORY, CLEAR_ALL_CONVERSATION_HISTORY };
+export { messageActions, SET_CONVERSATION_HISTORY, PUSH_CONVERSATION_HISTORY, POP_CONVERSATION_HISTORY, CLEAR_CONVERSATION_HISTORY, CLEAR_ALL_CONVERSATION_HISTORY, SET_CONVERSATION_HISTORY_HASMORE };
