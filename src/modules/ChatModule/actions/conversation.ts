@@ -1,11 +1,11 @@
 import { Conversation } from '../interface';
 import { toast } from 'react-toastify';
-const SET_CONVERSATION_LIST = 'CONVERSATION_LIST/SET';
-const PUSH_CONVERSATION = 'CONVERSATION_LIST/PUSH';
-const REMOVE_CONVERSATION = 'CONVERSATION_LIST/REMOVE';
-const CLEAR_CONVERSATION = 'CONVERSATION_LIST/CLEAR';
-const STICK_CONVERSATION = 'CONVERSATION_LIST/SITCK';
-const SET_CONVERSATION_TARGET = 'CONVERSATION_TARGET/SET';
+const SET_CONVERSATION_LIST = Symbol('list');
+const PUSH_CONVERSATION = Symbol('item/push');
+const REMOVE_CONVERSATION = Symbol('item/remove');
+const CLEAR_CONVERSATION = Symbol('list/clear');
+const STICK_CONVERSATION = Symbol('item/stick');
+const SET_CONVERSATION_TARGET = Symbol('item/target');
 
 const RongIMClient = RongIMLib.RongIMClient;
 
@@ -20,7 +20,6 @@ class ConversationActions {
             RongIMClient.getInstance().getConversationList({
                 onSuccess: function (list: RongIMLib.Conversation[]) {
                     // list => 会话列表集合
-                    console.log('conversationList :', list);
                     dispatch(_this.setList(list));
                 },
                 onError: function (error) {
@@ -86,4 +85,5 @@ class ConversationActions {
 
 const conversationActions = new ConversationActions();
 
-export { conversationActions, SET_CONVERSATION_LIST, PUSH_CONVERSATION, REMOVE_CONVERSATION, STICK_CONVERSATION, SET_CONVERSATION_TARGET, CLEAR_CONVERSATION };
+export default conversationActions;
+export { SET_CONVERSATION_LIST, PUSH_CONVERSATION, REMOVE_CONVERSATION, STICK_CONVERSATION, SET_CONVERSATION_TARGET, CLEAR_CONVERSATION };

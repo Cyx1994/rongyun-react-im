@@ -1,16 +1,18 @@
-import { SET_AUTH, CLEAR_AUTH } from './action';
+import { SET_AUTH, CLEAR_AUTH, SET_STATUS } from './action';
 import { AnyAction } from 'redux'
 
-type State = {
+export interface Auth {
     token: string,
     userId: string,
     name?: string,
     portraitUri?: string,
+    status: RongIMLib.ConnectionStatus
 }
 
-const initialState: State = {
+const initialState: Auth = {
     token: '',
     userId: '',
+    status: RongIMLib.ConnectionStatus.DISCONNECTED
 }
 
 export default (state = initialState, action: AnyAction) => {
@@ -19,9 +21,12 @@ export default (state = initialState, action: AnyAction) => {
             return action.data;
         }
         case CLEAR_AUTH: {
+            return initialState;
+        }
+        case SET_STATUS: {
             return {
-                token: '',
-                userId: '',
+                ...state,
+                status: action.status
             };
         }
         default: return state;

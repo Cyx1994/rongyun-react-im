@@ -4,17 +4,17 @@ const RongIMClient = RongIMLib.RongIMClient;
 export class Client {
     static init(token: string, onReceived: any, params?: any): Promise<void> {
         RongIMClient.init(Config.appKey);
-        this.listenConnectStatus();
         this.listenMessage(onReceived);
         return this.connect(token);
         // 更多参考: http://www.rongcloud.cn/docs/web_api_demo.html
     }
 
-    static listenConnectStatus(): void {
+    static listenConnectStatus(setStatus: any): void {
         // 连接状态监听器
         RongIMClient.setConnectionStatusListener({
             onChanged: function (status: any) {
                 // status 标识当前连接状态
+                setStatus(status);
                 switch (status) {
                     case RongIMLib.ConnectionStatus.CONNECTED:
                         console.log('链接成功');
@@ -130,6 +130,7 @@ export class Client {
             });
         })
     }
+
 
     static reconnect(): void {
         var callback = {

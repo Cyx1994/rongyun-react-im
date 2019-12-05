@@ -26,7 +26,7 @@ const scrollToEnd = (smooth: boolean = false) => {
     const anchor = document.querySelector(
         '#back-to-top-anchor',
     );
-
+ 
     if (anchor) {
         const option: any = {
             block: 'center'
@@ -84,7 +84,7 @@ const ConversationContent: React.FC<Props> = ({ history, myId, onLoad, hasMore }
                 }
 
                 {
-                    history && history.map(msg => <ConversationMessage key={msg.messageUId} message={msg} mine={msg.targetId === myId} />)
+                    history && history.map(msg => <ConversationMessage key={msg.messageUId} message={msg} mine={msg.senderUserId === myId} />)
                 }
                 <ScrollEndFab window={scrollArea}>
                     <Fab color="secondary" size="small" aria-label="scroll back to top">

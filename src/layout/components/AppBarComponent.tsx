@@ -86,11 +86,11 @@ interface Props {
   title?: string,
   navigators: any[],
   actions: {
-    [props: string]: any
+    [props: string]: () => void
   }
 }
 
-export default function AppBarComponent({ title = 'Empty_', navigators, actions }: Props) {
+export default function AppBarComponent({ title = 'X-IM', navigators, actions }: Props) {
   const classes = useStyles(0);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 

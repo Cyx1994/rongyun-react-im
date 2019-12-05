@@ -1,5 +1,5 @@
-import { conversationActions } from './actions/conversation';
-import { messageActions } from './actions/message';
+import conversationActions from './actions/conversation';
+import messageActions from './actions/message';
 import ChatReducer from './reducer';
 import { Conversation, Message } from './interface';
 import ChatScreen from './pages/chat';

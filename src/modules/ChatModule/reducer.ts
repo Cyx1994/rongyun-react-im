@@ -71,13 +71,24 @@ const ChatReducer: Reducer<State> = (state = {
         case CLEAR_CONVERSATION: {
             return {
                 ...state,
-                conversationList: []
+                conversationList: [],
             }
         }
         case SET_CONVERSATION_TARGET: {
+            const targetId = action.data.targetId;
+            const temp: Conversation[] = state.conversationList.map((c) => {
+                if (c.targetId === targetId) {
+                    return {
+                        ...c,
+                        unreadMessageCount: 0
+                    }
+                }
+                return c;
+            })
             return {
                 ...state,
-                target: action.data
+                target: action.data,
+                conversationList: temp
             }
         }
         case SET_CONVERSATION_HISTORY: {

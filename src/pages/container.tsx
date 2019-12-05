@@ -2,9 +2,7 @@ import React, { useEffect } from 'react';
 import { Switch, Route, Redirect, RouteComponentProps } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Routes, Navigators } from './router';
-import { ToastContainer } from 'react-toastify';
 import { BaseLayout } from '../layout';
-
 import { conversationActions, messageActions } from '../modules/ChatModule';
 import { authActions } from '../modules/SignModule'
 import * as RongIM from '../libs/RongIM';
@@ -13,12 +11,14 @@ interface Props extends RouteComponentProps {
     token: string;
     name: string;
     userId: string;
+    status: RongIMLib.ConnectionStatus;
     getConversationList: () => void;
+    onStatusChange: (status: RongIMLib.ConnectionStatus) => void;
     onReceivedMessage: (fromId: string, message: RongIMLib.Message) => void;
     signOut: () => void;
 }
 
-const CommonContainerComponent: React.FC<Props> = ({ token, name, userId, history, getConversationList, onReceivedMessage, signOut }) => {
+const CommonContainerComponent: React.FC<Props> = ({ token, status, history, getConversationList, onStatusChange, onReceivedMessage, signOut }) => {
     const defaultRedirectTo: string = Routes[0].path + '' || '/';
     useEffect(() => {
         /* 需全局接受消息,则程序在加载钱需初始化 */
@@ -27,7 +27,8 @@ const CommonContainerComponent: React.FC<Props> = ({ token, name, userId, histor
             .then(() => {
                 getConversationList();
             })
-    });
+        RongIM.Client.listenConnectStatus(onStatusChange)
+    }, [token, getConversationList, onReceivedMessage, onStatusChange]);
 
     useEffect(() => {
         if (!token) {
@@ -40,11 +41,12 @@ const CommonContainerComponent: React.FC<Props> = ({ token, name, userId, histor
     }
 
     return <BaseLayout
-        title={name || userId || 'Empty_'}
+        title='X-IM'
         navigators={Navigators.map(item => ({ icon: item.icon, action: () => history.push(item.url) }))}
         actions={{
             signOut: handleSignOut
         }}
+        status={status}
     >
         <Switch>
             {
@@ -52,16 +54,6 @@ const CommonContainerComponent: React.FC<Props> = ({ token, name, userId, histor
             }
             <Redirect to={defaultRedirectTo} />
         </Switch>
-
-        <ToastContainer
-            position="top-right"
-            autoClose={2000}
-            newestOnTop={false}
-            closeOnClick={false}
-            rtl={false}
-            draggable={false}
-            pauseOnHover
-        />
     </BaseLayout >
 }
 
@@ -72,7 +64,8 @@ const mapStateToProps = (state: any) => ({
 const mapDispatchToProps = (dispatch: any) => ({
     getConversationList: () => dispatch(conversationActions.getList()),
     onReceivedMessage: (fromId: string, message: RongIMLib.Message) => dispatch(messageActions.pushHistory(fromId, message)),
-    signOut: () => dispatch(authActions.signOut())
+    signOut: () => dispatch(authActions.signOut()),
+    onStatusChange: (status: RongIMLib.ConnectionStatus) => dispatch(authActions.setStatus(status))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(CommonContainerComponent);

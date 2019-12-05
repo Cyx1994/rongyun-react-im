@@ -1,22 +1,36 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom'
-import CommonContainerComponent from './pages/container';
-import { SignScreen } from './modules/SignModule';
+import { ToastContainer } from 'react-toastify';
 
 import './App.css';
 import 'react-toastify/dist/ReactToastify.css';
 
+import { SignScreen } from './modules/SignModule';
+import CommonContainerComponent from './pages/container';
+import WindowLoadingComponent from './components/WindowLoading';
+
 function App() {
   return (
     <div className="App">
-      <BrowserRouter>
-        <Switch>
-          <Route path="/sign" component={SignScreen} />
-          <Route path="/home" component={CommonContainerComponent} />
-          <Redirect to="/sign" />
-        </Switch>
-
-      </BrowserRouter>
+      <Suspense fallback={<WindowLoadingComponent />} >
+        <BrowserRouter>
+          <Switch>
+            <Route path="/sign" component={SignScreen} />
+            <Route path="/home" component={CommonContainerComponent} />
+            <Redirect to="/sign" />
+          </Switch>
+        </BrowserRouter>
+      </Suspense>
+      <ToastContainer
+        position="top-right"
+        autoClose={2000}
+        hideProgressBar
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        draggable={false}
+        pauseOnHover
+      />
     </div>
   );
 }

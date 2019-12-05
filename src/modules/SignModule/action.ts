@@ -4,24 +4,13 @@ import { messageActions, conversationActions } from '../ChatModule'
 
 const RongIMClient = RongIMLib.RongIMClient;
 
-export const SET_AUTH = 'AUTH/SET';
-export const UPDATE_AUTH = 'AUTH/UPDATE';
-export const CLEAR_AUTH = 'AUTH/CLEAR';
-
-export interface Auth {
-    token: string,
-    userId: string,
-    name?: string,
-    portraitUri?: string,
-}
-
-export interface AuthRequestParams {
-    username: string,
-    password: string,
-    verifyCode?: string,
-}
+const SET_AUTH = Symbol('auth');
+const UPDATE_AUTH = Symbol('auth/set');
+const CLEAR_AUTH = Symbol('auth/clear');
+const SET_STATUS = Symbol('status/set');
 
 class AuthActions {
+    setStatus = (status: RongIMLib.ConnectionStatus) => ({ type: SET_STATUS, status })
     signIn(authParams: { username: string, password: string }, cb?: () => void) {
         return (dispatch: any) => {
             http.post(Api.auth.getToken, { ...authParams, userId: authParams.username })
@@ -49,4 +38,11 @@ class AuthActions {
 
 const authActions = new AuthActions();
 
-export { authActions };
+export default authActions;
+export { SET_AUTH, SET_STATUS, UPDATE_AUTH, CLEAR_AUTH };
+
+export interface AuthRequestParams {
+    username: string,
+    password: string,
+    verifyCode?: string,
+}

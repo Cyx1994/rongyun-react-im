@@ -1,7 +1,7 @@
 import React from 'react';
-import { colors, List, ListItem, ListItemText, ListItemAvatar, ListItemSecondaryAction, Avatar, Typography, Divider, Badge } from '@material-ui/core';
+import { colors, List, ListItem, ListItemText, ListItemAvatar, ListItemSecondaryAction, Avatar, Typography, Badge } from '@material-ui/core';
 import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
-import AccessibleSharpIcon from '@material-ui/icons/AccessibleSharp';
+import { MockAvatarByName, mockColorByName } from '../../../utils/mock';
 
 import moment from 'moment';
 import { Conversation } from '../interface';
@@ -44,8 +44,8 @@ const ConversationList: React.FC<Props> = ({ data, onSelect }) => {
                     <ListItem button onClick={() => onSelect(c)}>
                         <ListItemAvatar>
                             <Badge badgeContent={c.unreadMessageCount} color="secondary">
-                                <Avatar>
-                                    <AccessibleSharpIcon />
+                                <Avatar style={{ backgroundColor: mockColorByName(c.conversationTitle || c.targetId) }}  >
+                                    <MockAvatarByName name={c.conversationTitle || c.targetId} />
                                 </Avatar>
                             </Badge>
                         </ListItemAvatar>
@@ -59,12 +59,12 @@ const ConversationList: React.FC<Props> = ({ data, onSelect }) => {
                             <Typography >{timeRules(goodTime(c.sentTime, c.receivedTime))}</Typography>
                         </ListItemSecondaryAction>
                     </ListItem>
-                    {index !== data.length - 1 && <Divider variant="inset" />}
                 </div>
             ))
         }
     </List>
 }
+
 
 const timeRules = (time: number = 0) => {
     const now = moment().valueOf();
@@ -72,10 +72,11 @@ const timeRules = (time: number = 0) => {
     const temp = now - time;
     if (temp < 5 * 3600) {
         return '刚刚';
-    } else if (temp < moment().startOf('day').valueOf()) {
+    } else if (time > moment().startOf('day').valueOf()) {
         return moment(time).format('HH:mm');
-    } else if (temp < moment().startOf('week').valueOf()) {
-        return moment(time).format('e');
+    } else if (time > moment().startOf('week').valueOf()) {
+        const weekTab = ['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期日'];
+        return weekTab[parseInt(moment(time).format('e'))];
     } else {
         return moment(time).format('MM-DD');
     }

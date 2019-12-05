@@ -5,7 +5,7 @@ import { Box, TextField, Button } from '@material-ui/core';
 import useForm, { FormMethods } from 'rc-form-hooks';
 import { toast } from 'react-toastify';
 
-import { authActions, AuthRequestParams } from '../action';
+import authActions, { AuthRequestParams } from '../action';
 
 interface Props extends RouteComponentProps {
     signIn: (authParams: AuthRequestParams, cb: () => void) => void
@@ -27,22 +27,19 @@ const SignInPage: React.FC<Props> = ({ history, signIn }) => {
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-            <Box width={'100%'} height={200}>
+        <Box width={'100%'} height={'100%'} >
+            <form onSubmit={handleSubmit}>
                 {getFieldDecorator('username', {
-                    rules: [{ required: true, message: 'Please input username!' }],
-                    initialValue: '',
-                })(<TextField autoFocus label="username" placeholder="any string" variant="filled" fullWidth />)}
+                    rules: [{ required: true, message: 'Please input username!' }]
+                })(<TextField autoFocus label="username" placeholder="any string" fullWidth />)}
                 {getFieldDecorator('password', {
-                    rules: [{ required: true, message: 'Please input password!' }],
-                    initialValue: '',
-                })(<TextField label="password" variant="filled" fullWidth />)}
-                <Box display="flex" style={{ justifyContent: 'flex-end' }} >
-                    <Button type={'submit'}>submit</Button>
+                    rules: [{ required: true, message: 'Please input password!' }]
+                })(<TextField label="password" fullWidth placeholder="same to username" />)}
+                <Box display="flex" justifyContent="flex-end" marginTop="12px" >
+                    <Button type={'submit'} color="primary" variant="contained" >login</Button>
                 </Box>
-            </Box>
-        </form>
-
+            </form>
+        </Box >
     );
 }
 

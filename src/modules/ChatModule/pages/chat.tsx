@@ -7,8 +7,8 @@ import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
 import ConversationList from '../components/conversation-list';
 import ConversationWindow from '../components/conversation';
 import EmptyContent from '../components/empty-conversation';
-import { conversationActions } from '../actions/conversation';
-import { messageActions } from '../actions/message';
+import conversationActions from '../actions/conversation';
+import messageActions from '../actions/message';
 import { Conversation, Message } from '../interface';
 
 const useStyles = makeStyles((theme: Theme) =>
