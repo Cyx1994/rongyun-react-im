@@ -26,8 +26,6 @@ class AuthActions {
     signOut() {
         return (dispatch: any) => {
             RongIMClient.getInstance().logout();
-            // RongIMClient.getInstance().disconnect();
-
             dispatch({ type: CLEAR_AUTH });
             dispatch(messageActions.resetHistory());
             dispatch(conversationActions.setTarget());

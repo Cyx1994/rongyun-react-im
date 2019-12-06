@@ -1,5 +1,5 @@
 import React, { Suspense } from 'react';
-import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom'
+import { HashRouter, Route, Redirect, Switch } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify';
 
 import './App.css';
@@ -13,13 +13,13 @@ function App() {
   return (
     <div className="App">
       <Suspense fallback={<WindowLoadingComponent />} >
-        <BrowserRouter>
+        <HashRouter>
           <Switch>
             <Route path="/sign" component={SignScreen} />
             <Route path="/home" component={CommonContainerComponent} />
             <Redirect to="/sign" />
           </Switch>
-        </BrowserRouter>
+        </HashRouter>
       </Suspense>
       <ToastContainer
         position="top-right"

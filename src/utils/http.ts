@@ -10,7 +10,7 @@ import sha1 from 'sha1';
 import Api from './api';
 import Config from '../config';
 import { toast } from 'react-toastify';
-var qs = require('qs');
+import qs from 'qs';
 
 
 let instance = axios.create({
@@ -18,8 +18,8 @@ let instance = axios.create({
     baseURL: Api.baseUrl,
     headers: {
         "Content-Type": 'application/x-www-form-urlencoded',
-        'RC-App-Key': Config.appKey,
-        'RC-Nonce': Config.HashSeed,
+        'App-Key': Config.appKey,
+        'Nonce': Config.HashSeed,
     }
 })
 
@@ -31,14 +31,8 @@ instance.interceptors.request.use(
     async config => {
         _isShowLoading(true);
         const now = new Date().getTime();
-        // if (config.url !== Api.auth.login) {
-        //     const token = sessionStorage.getItem('dcc_web_token');
-        //     if (token) {
-        //         config.headers['token'] = token || '';
-        //     }
-        // }
-        config.headers['RC-Timestamp'] = now.toString();
-        config.headers['RC-Signature'] = sha1(Config.secret + Config.HashSeed + now);
+        config.headers['Timestamp'] = now.toString();
+        config.headers['Signature'] = sha1(Config.secret + Config.HashSeed + now);
         return config;
     },
     error => {

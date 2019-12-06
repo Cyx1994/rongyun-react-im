@@ -23,11 +23,11 @@ const CommonContainerComponent: React.FC<Props> = ({ token, status, history, get
     useEffect(() => {
         /* 需全局接受消息,则程序在加载钱需初始化 */
         RongIM.Client
-            .init(token.slice(), onReceivedMessage)
+            .init(token.slice(), onReceivedMessage, onStatusChange)
             .then(() => {
                 getConversationList();
             })
-        RongIM.Client.listenConnectStatus(onStatusChange)
+
     }, [token, getConversationList, onReceivedMessage, onStatusChange]);
 
     useEffect(() => {

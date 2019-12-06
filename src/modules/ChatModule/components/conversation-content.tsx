@@ -26,7 +26,7 @@ const scrollToEnd = (smooth: boolean = false) => {
     const anchor = document.querySelector(
         '#back-to-top-anchor',
     );
- 
+
     if (anchor) {
         const option: any = {
             block: 'center'

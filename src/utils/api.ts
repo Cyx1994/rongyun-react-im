@@ -1,5 +1,7 @@
+const baseUrl = process.env.NODE_ENV === 'development' ? '/api' : 'http://api-cn.ronghub.com';
+
 export default {
-    baseUrl: '/api',
+    baseUrl,
     auth: {
         getToken: '/user/getToken.json'
     }

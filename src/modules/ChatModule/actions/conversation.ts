@@ -77,10 +77,23 @@ class ConversationActions {
     setTarget = (target?: Conversation) => {
         return (dispatch: any) => {
             // read message
+            if (target) {
+                this.clearUnReadCound(target);
+            }
             dispatch({ type: SET_CONVERSATION_TARGET, data: target });
         }
     }
-
+    clearUnReadCound = (target: Conversation) => {
+        const { conversationType, targetId } = target;
+        RongIMClient.getInstance().clearUnreadCount(conversationType, targetId, {
+            onSuccess: function () {
+                // 清除未读消息成功
+            },
+            onError: function (error) {
+                // error => 清除未读消息数错误码
+            }
+        });
+    }
 }
 
 const conversationActions = new ConversationActions();

@@ -2,14 +2,15 @@ import Config from '../config';
 const RongIMClient = RongIMLib.RongIMClient;
 
 export class Client {
-    static init(token: string, onReceived: any, params?: any): Promise<void> {
-        RongIMClient.init(Config.appKey);
-        this.listenMessage(onReceived);
-        return this.connect(token);
+    static async init(token: string, onReceived: any, onStatusChange: any): Promise<void> {
+        await RongIMClient.init(Config.appKey);
+        await this.listenConnectStatus(onStatusChange);
+        await this.listenMessage(onReceived);
+        await this.connect(token);
         // 更多参考: http://www.rongcloud.cn/docs/web_api_demo.html
     }
 
-    static listenConnectStatus(setStatus: any): void {
+    static async listenConnectStatus(setStatus: any) {
         // 连接状态监听器
         RongIMClient.setConnectionStatusListener({
             onChanged: function (status: any) {
@@ -39,7 +40,7 @@ export class Client {
         });
     }
 
-    static listenMessage(onReceived: (id: string, msg: RongIMLib.Message) => void): void {
+    static async listenMessage(onReceived: (id: string, msg: RongIMLib.Message) => void) {
         // 消息监听器
         RongIMClient.setOnReceiveMessageListener({
             // 接收到的消息
