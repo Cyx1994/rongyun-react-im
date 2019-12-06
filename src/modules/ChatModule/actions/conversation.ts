@@ -1,5 +1,6 @@
 import { Conversation } from '../interface';
 import { toast } from 'react-toastify';
+
 const SET_CONVERSATION_LIST = Symbol('list');
 const PUSH_CONVERSATION = Symbol('item/push');
 const REMOVE_CONVERSATION = Symbol('item/remove');
@@ -12,6 +13,7 @@ const RongIMClient = RongIMLib.RongIMClient;
 class ConversationActions {
     setList = (list: Conversation[]) => ({ type: SET_CONVERSATION_LIST, data: list })
     resetList = () => ({ type: SET_CONVERSATION_LIST, data: [] })
+    stickConversation = (id: string, onlySort: boolean | undefined = false) => ({ type: STICK_CONVERSATION, id, onlySort })
     getList = (count: number = 15) => {
         const _this = this;
         return (dispatch: any) => {
@@ -94,6 +96,7 @@ class ConversationActions {
             }
         });
     }
+
 }
 
 const conversationActions = new ConversationActions();

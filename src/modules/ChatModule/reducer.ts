@@ -43,13 +43,23 @@ const ChatReducer: Reducer<State> = (state = {
             }
         }
         case STICK_CONVERSATION: {
-            const targetIndex = state.conversationList.findIndex(c => c.targetId === action.id);
+            if (!action.id) {
+                return state;
+            }
+            const list = state.conversationList.slice();
+            const targetIndex = list.findIndex(c => c.targetId === action.id);
             if (targetIndex > -1) {
-                const temp = state.conversationList.slice();
-                temp[targetIndex].isTop = true;
+                if (targetIndex > 0) {
+                    const temp = list[targetIndex];
+                    list[targetIndex] = list[0];
+                    list[0] = temp;
+                }
+                if (!action.onlySort) {
+                    list[targetIndex].isTop = true;
+                }
                 return {
                     ...state,
-                    conversationList: temp
+                    conversationList: list
                 };
             } else {
                 return state;
@@ -126,6 +136,9 @@ const ChatReducer: Reducer<State> = (state = {
             } else {
                 temp[action.id] = temp[action.id].concat(data);
             }
+
+
+
             return {
                 ...state,
                 chatHistory: temp

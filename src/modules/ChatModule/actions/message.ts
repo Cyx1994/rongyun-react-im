@@ -19,6 +19,7 @@ class MessageActions {
         return (dispatch: any, getState: any) => {
             const conversationList: Conversation[] = getState().chat.conversationList;
             if (conversationList.find(c => c.targetId === id)) {
+                dispatch(conversationActions.stickConversation(id, true));
                 dispatch({ type: PUSH_CONVERSATION_HISTORY, id, data });
             } else {
                 dispatch(conversationActions.getList());
