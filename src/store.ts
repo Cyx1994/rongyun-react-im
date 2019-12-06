@@ -10,7 +10,15 @@ const rootReducer = combineReducers({
     auth: AuthReducer,
     chat: ChatReducer,
 })
+let middleware: any[] = [thunk];
 
-let Store = createStore(rootReducer, applyMiddleware(thunk, logger));
+if (process.env.NODE_ENV === 'development') {
+    middleware = [
+        ...middleware,
+        logger,
+    ]
+}
+
+let Store = createStore(rootReducer, applyMiddleware(...middleware));
 
 export { Store };

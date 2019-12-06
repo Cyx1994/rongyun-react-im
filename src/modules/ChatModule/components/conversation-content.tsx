@@ -64,6 +64,7 @@ const ConversationContent: React.FC<Props> = ({ history, myId, targetId, onLoad,
 
 
     React.useEffect(() => {
+        // 防止锚点变化引起重复获取
         if (!history && !anchor) {
             onLoad();
         } else if (history) {

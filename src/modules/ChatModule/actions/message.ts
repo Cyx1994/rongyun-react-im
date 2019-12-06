@@ -42,6 +42,8 @@ class MessageActions {
                     console.log('Send successfully');
                     if (message) {
                         dispatch(_this.pushHistory(id, message));
+                        // TODO: 更新会话的lastmsg
+                        dispatch(conversationActions.getList());
                     }
                 },
                 onError: function (errorCode, message) {
