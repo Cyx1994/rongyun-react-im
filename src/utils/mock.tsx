@@ -1,4 +1,5 @@
 import React from 'react';
+import Axios from 'axios';
 import { colors } from '@material-ui/core';
 import FaceIcon from '@material-ui/icons/Face';
 import AccessAlarmIcon from '@material-ui/icons/AccessAlarm';
@@ -31,4 +32,9 @@ export const mockColorByName = (name: string = 'a') => {
         default: break;
     }
     return color;
+}
+
+export const talkToAnyTalkRobot = async (yourWords: string) => {
+    const { data: { answer } }: any = await Axios.get(`/anytalkrobot/turing?words=${yourWords}`);
+    return answer;
 }

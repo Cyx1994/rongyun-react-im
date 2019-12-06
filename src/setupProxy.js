@@ -6,4 +6,9 @@ module.exports = function (app) {
     changeOrigin: true,
     pathRewrite: { '^/api': '/user' },
   }));
+  app.use('/anytalkrobot', proxy({
+    target: 'http://www.shunong.shop',
+    changeOrigin: true,
+    pathRewrite: { '^/anytalkrobot': '/anytalkrobot' },
+  }))
 };
