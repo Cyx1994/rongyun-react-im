@@ -1,6 +1,6 @@
 ## 使用方法
 
-可进入[](https://www.shunongs.shop)
+可在[这里](https://www.shunongs.shop/x-im)使用demo;
 
 ### 注册融云服务
 

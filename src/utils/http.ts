@@ -17,9 +17,9 @@ let instance = axios.create({
     timeout: 10000,
     baseURL: Api.baseUrl,
     headers: {
-        "Content-Type": 'application/x-www-form-urlencoded',
-        'App-Key': Config.appKey,
-        'Nonce': Config.HashSeed,
+        "Content-Type": 'application/x-www-form-urlencoded;charset=UTF-8',
+        'RC-App-Key': Config.appKey,
+        'RC-Nonce': Config.HashSeed,
     }
 })
 
@@ -31,8 +31,13 @@ instance.interceptors.request.use(
     async config => {
         _isShowLoading(true);
         const now = new Date().getTime();
-        config.headers['Timestamp'] = now.toString();
-        config.headers['Signature'] = sha1(Config.secret + Config.HashSeed + now);
+        config.headers['RC-Timestamp'] = now.toString();
+        config.headers['RC-Signature'] = sha1(Config.secret + Config.HashSeed + now);
+
+        if (config.method === 'post') {
+            config.data = qs.stringify(config.data);
+        }
+        
         return config;
     },
     error => {
@@ -40,6 +45,7 @@ instance.interceptors.request.use(
         return Promise.reject(error);
     }
 )
+
 
 /**
  * @description: 请求后拦截处理
@@ -69,13 +75,14 @@ instance.interceptors.response.use(
 )
 
 
+
 export default class http {
     static async get(url: string, params?: object) {
         return await instance.get(url, params);
     }
     static async post(url: string, params?: object) {
         console.log(url, params);
-        return await instance.post(url, qs.stringify(params));
+        return await instance.post(url, params);
     }
     // TODO: other请求方式
 }
