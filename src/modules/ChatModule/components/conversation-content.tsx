@@ -31,7 +31,7 @@ const scrollToEnd = (smooth: boolean = false, anchor?: Element | null) => {
     }
     if (anchor) {
         const option: any = {
-            block: 'start'
+            block: 'nearest'
         };
         if (smooth) {
             option.behavior = 'smooth';
