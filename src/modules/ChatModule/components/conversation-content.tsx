@@ -58,14 +58,15 @@ function ScrollEndFab(props: any) {
     );
 }
 
-
 const ConversationContent: React.FC<Props> = ({ history, myId, targetId, onLoad, hasMore }) => {
     const [scrollArea, setScrollArea] = useState();
     const [anchor, setAnchor] = useState<Element | null>();
+
+
     React.useEffect(() => {
-        if (!history) {
+        if (!history && !anchor) {
             onLoad();
-        } else {
+        } else if (history) {
             scrollToEnd(true, anchor);
         }
     }, [history, onLoad, anchor]);
@@ -81,6 +82,8 @@ const ConversationContent: React.FC<Props> = ({ history, myId, targetId, onLoad,
             setScrollArea(node);
         }
     }, []);
+
+
 
     const getHistory = () => {
         // 设置锚点
@@ -98,7 +101,7 @@ const ConversationContent: React.FC<Props> = ({ history, myId, targetId, onLoad,
             <Box p={1} height="100%" style={{ overflow: 'auto' }} >
                 {
                     hasMore && <Box display="flex" justifyContent="center">
-                        <Button onClick={getHistory}>load more</Button>
+                        <Button onClick={() => getHistory()}>load more</Button>
                     </Box>
                 }
 
