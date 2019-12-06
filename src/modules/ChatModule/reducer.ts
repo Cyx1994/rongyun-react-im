@@ -4,7 +4,7 @@ import {
 } from './actions/conversation';
 import {
     SET_CONVERSATION_HISTORY, PUSH_CONVERSATION_HISTORY, CLEAR_CONVERSATION_HISTORY,
-    CLEAR_ALL_CONVERSATION_HISTORY, SET_CONVERSATION_HISTORY_HASMORE
+    CLEAR_ALL_CONVERSATION_HISTORY, SET_CONVERSATION_HISTORY_HASMORE, UNSHIFT_CONVERSATION_HISTORY,
 } from './actions/message';
 import { Reducer } from 'redux';
 import { Conversation, Message } from './interface';
@@ -99,12 +99,14 @@ const ChatReducer: Reducer<State> = (state = {
                 return {
                     ...state,
                     target: action.data,
-                    conversationList: temp
+                    conversationList: temp,
+                    hasMore: true
                 }
             } else {
                 return {
                     ...state,
                     target: action.data,
+                    hasMore: true
                 }
             }
 
@@ -137,7 +139,26 @@ const ChatReducer: Reducer<State> = (state = {
                 temp[action.id] = temp[action.id].concat(data);
             }
 
+            return {
+                ...state,
+                chatHistory: temp
+            };
+        }
+        case UNSHIFT_CONVERSATION_HISTORY: {
+            if (!action.id) {
+                return state;
+            }
+            let data = action.data;
+            if (!(action.data instanceof Array)) {
+                data = [data];
+            }
 
+            let temp = { ...state.chatHistory };
+            if (!temp[action.id]) {
+                temp[action.id] = data
+            } else {
+                temp[action.id] = data.concat(temp[action.id]);
+            }
 
             return {
                 ...state,

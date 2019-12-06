@@ -38,6 +38,7 @@ const CommonContainerComponent: React.FC<Props> = ({ token, status, history, get
 
     const handleSignOut = () => {
         signOut();
+        history.replace('/sign');
     }
 
     return <BaseLayout
@@ -58,7 +59,7 @@ const CommonContainerComponent: React.FC<Props> = ({ token, status, history, get
 }
 
 const mapStateToProps = (state: any) => ({
-    ...state.auth
+    ...state.auth,
 })
 
 const mapDispatchToProps = (dispatch: any) => ({

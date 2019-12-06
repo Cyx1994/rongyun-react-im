@@ -8,6 +8,7 @@ import useScrollTrigger from '../../../utils/useScrollTrigger';
 interface Props {
     history?: RongIMLib.Message[];
     myId: string;
+    targetId: string;
     onLoad: () => void;
     hasMore: boolean;
 }
@@ -22,14 +23,15 @@ const useStyles = makeStyles((theme: Theme) =>
     }),
 );
 
-const scrollToEnd = (smooth: boolean = false) => {
-    const anchor = document.querySelector(
-        '#back-to-top-anchor',
-    );
-
+const scrollToEnd = (smooth: boolean = false, anchor?: Element | null) => {
+    if (!anchor) {
+        anchor = document.querySelector(
+            '#back-to-top-anchor',
+        );
+    }
     if (anchor) {
         const option: any = {
-            block: 'center'
+            block: 'start'
         };
         if (smooth) {
             option.behavior = 'smooth';
@@ -57,16 +59,22 @@ function ScrollEndFab(props: any) {
 }
 
 
-const ConversationContent: React.FC<Props> = ({ history, myId, onLoad, hasMore }) => {
+const ConversationContent: React.FC<Props> = ({ history, myId, targetId, onLoad, hasMore }) => {
     const [scrollArea, setScrollArea] = useState();
-
+    const [anchor, setAnchor] = useState<Element | null>();
     React.useEffect(() => {
         if (!history) {
             onLoad();
         } else {
-            scrollToEnd();
+            scrollToEnd(true, anchor);
         }
-    }, [history, onLoad])
+    }, [history, onLoad, anchor]);
+
+
+    // 跟换会话，窗口初始化
+    React.useEffect(() => {
+        setAnchor(undefined);
+    }, [targetId]);
 
     const getNode = React.useCallback(node => {
         if (node !== null) {
@@ -74,12 +82,23 @@ const ConversationContent: React.FC<Props> = ({ history, myId, onLoad, hasMore }
         }
     }, []);
 
+    const getHistory = () => {
+        // 设置锚点
+        if (history && history[0]) {
+            const t = document.querySelector(
+                '#msg' + history[0].messageUId,
+            );
+            setAnchor(t);
+        }
+        onLoad();
+    }
+
     return (
         <RootRef rootRef={getNode}>
             <Box p={1} height="100%" style={{ overflow: 'auto' }} >
                 {
                     hasMore && <Box display="flex" justifyContent="center">
-                        <Button onClick={() => onLoad()}>load more</Button>
+                        <Button onClick={getHistory}>load more</Button>
                     </Box>
                 }
 
