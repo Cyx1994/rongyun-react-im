@@ -1,3 +1,4 @@
+
 export default [
     {
         id: 't-1',
@@ -13,3 +14,5 @@ export default [
         }]
     }
 ]
+
+export const robotsId = ['HarryPotter', 'Yennefer'];

@@ -48,6 +48,20 @@ class ConversationActions {
             })
         }
     }
+    create = (targetId: string, conversationType: RongIMLib.ConversationType = RongIMLib.ConversationType.PRIVATE) => {
+        const _this = this;
+        return (disptach: any) => {
+            RongIMClient.getInstance().sendTextMessage(conversationType, targetId, '', {
+                onSuccess() {
+                    disptach(_this.getList());
+                },
+                onError() {
+
+                }
+            })
+        }
+    }
+
     delete = (targetId: string, conversationType: RongIMLib.ConversationType = RongIMLib.ConversationType.PRIVATE) => {
         return (dispatch: any) => {
             RongIMClient.getInstance().removeConversation(conversationType, targetId, {

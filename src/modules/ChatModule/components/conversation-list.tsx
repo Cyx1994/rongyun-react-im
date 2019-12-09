@@ -36,6 +36,7 @@ interface Props {
 
 const ConversationList: React.FC<Props> = ({ data, onSelect }) => {
     const classes = useStyles();
+    
     return <List className={classes.layout}>
         {
             data.map((c, index) => (

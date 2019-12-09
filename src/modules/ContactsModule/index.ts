@@ -1,3 +1,3 @@
 import ContactScreen from './pages/contacts';
-
-export { ContactScreen };
+import { robotsId } from './contactsData';
+export { ContactScreen, robotsId };

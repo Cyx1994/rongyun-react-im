@@ -65,7 +65,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export default ({ message, mine }: Props) => {
     const classes = useStyles();
-
+    
     return <Box p={1} id={'msg' + message.messageUId}>
         <ListItem className={mine ? classes.layoutRight : ''} style={{ alignItems: 'flex-start' }} >
             <ListItemAvatar className={mine ? classes.avatarRight : ''}>

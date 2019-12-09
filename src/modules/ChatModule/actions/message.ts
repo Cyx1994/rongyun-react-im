@@ -1,6 +1,6 @@
 import { Message, Conversation } from '../interface';
 import conversationActions from './conversation';
-
+import { talkToAnyTalkRobot } from '../../../utils/mock';
 const SET_CONVERSATION_HISTORY = Symbol('list');
 const PUSH_CONVERSATION_HISTORY = Symbol('item/push');
 const POP_CONVERSATION_HISTORY = Symbol('item/pop');
@@ -30,10 +30,11 @@ class MessageActions {
         }
 
     }
-    sendTextMsg = (id: string, content: string) => {
+    sendTextMsg = (id: string, content: string, cb?: () => void) => {
         const _this = this;
         return (dispatch: any) => {
-            const msg = new RongIMLib.TextMessage({ content: content, extra: 'test' });
+
+            const msg = new RongIMLib.TextMessage({ content: content });
             const conversationType = RongIMLib.ConversationType.PRIVATE; // 单聊, 其他会话选择相应的会话类型即可
             var targetId = id; // 目标 Id
             RongIMClient.getInstance().sendMessage(conversationType, targetId, msg, {
@@ -44,6 +45,9 @@ class MessageActions {
                         dispatch(_this.pushHistory(id, message));
                         // TODO: 更新会话的lastmsg
                         dispatch(conversationActions.getList());
+                        if (cb) {
+                            cb();
+                        }
                     }
                 },
                 onError: function (errorCode, message) {
@@ -72,6 +76,23 @@ class MessageActions {
                 }
             }
             );
+        }
+    }
+    talkToRobot = (targetId: string, content: string) => {
+        return (dispatch: any) => {
+
+            dispatch(this.sendTextMsg(targetId, content, () => {
+                talkToAnyTalkRobot(content).then((answer) => {
+                    const returnMsg: any = {
+                        ...(new RongIMLib.TextMessage({ content: { content: answer } })),
+                        senderUserId: targetId,
+                        messageUId: new Date().getTime()
+                    };
+                    dispatch(this.pushHistory(targetId, returnMsg));
+                    // TODO: 更新会话的lastmsg
+                    dispatch(conversationActions.getList());
+                })
+            }))
         }
     }
     getHistory = (id: string, conversationType: RongIMLib.ConversationType = RongIMLib.ConversationType.PRIVATE) => {
