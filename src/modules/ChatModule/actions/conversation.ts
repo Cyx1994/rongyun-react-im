@@ -12,8 +12,11 @@ const RongIMClient = RongIMLib.RongIMClient;
 
 class ConversationActions {
     setList = (list: Conversation[]) => ({ type: SET_CONVERSATION_LIST, data: list })
+
     resetList = () => ({ type: SET_CONVERSATION_LIST, data: [] })
+
     stickConversation = (id: string, onlySort: boolean | undefined = false) => ({ type: STICK_CONVERSATION, id, onlySort })
+
     getList = (count: number = 15) => {
         const _this = this;
         return (dispatch: any) => {
@@ -30,6 +33,7 @@ class ConversationActions {
             }, [PRIVATE], count, false);
         }
     }
+
     set = (targetId: string, data: RongIMLib.Conversation, conversationType: RongIMLib.ConversationType = RongIMLib.ConversationType.PRIVATE) => {
         const _this = this;
         return (dispatch: any) => {
@@ -38,7 +42,7 @@ class ConversationActions {
                     if (con) {
                         const temp: any = { ...con, ...data };
                         RongIMLib.RongIMClient.getInstance().updateConversation(temp);
-                        _this.getList();
+                        dispatch(_this.getList());
                         console.log('updateConversation Success!');
                     }
                 },
@@ -48,6 +52,7 @@ class ConversationActions {
             })
         }
     }
+
     create = (targetId: string, conversationType: RongIMLib.ConversationType = RongIMLib.ConversationType.PRIVATE) => {
         const _this = this;
         return (disptach: any) => {
@@ -78,6 +83,7 @@ class ConversationActions {
             });
         }
     }
+
     clear = () => {
         return (dispatch: any) => {
             RongIMClient.getInstance().clearConversations({
@@ -90,6 +96,7 @@ class ConversationActions {
             })
         }
     }
+
     setTarget = (target?: Conversation) => {
         return (dispatch: any) => {
             // read message
@@ -99,6 +106,7 @@ class ConversationActions {
             dispatch({ type: SET_CONVERSATION_TARGET, data: target });
         }
     }
+    
     clearUnReadCound = (target: Conversation) => {
         const { conversationType, targetId } = target;
         RongIMClient.getInstance().clearUnreadCount(conversationType, targetId, {

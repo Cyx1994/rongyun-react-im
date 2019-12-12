@@ -28,7 +28,7 @@ const SignInPage: React.FC<Props> = ({ history, signIn }) => {
 
     return (
         <Box width={'100%'} height={'100%'} >
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} >
                 {getFieldDecorator('username', {
                     rules: [{ required: true, message: 'Please input username!' }]
                 })(<TextField autoFocus label="username" placeholder="any string" fullWidth />)}

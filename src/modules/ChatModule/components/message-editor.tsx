@@ -1,23 +1,37 @@
 import React from 'react';
-import { Box, Input, InputAdornment, IconButton, colors } from '@material-ui/core';
+import { Box, Input, InputAdornment, IconButton } from '@material-ui/core';
+import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
+
 import SendIcon from '@material-ui/icons/Send';
 
 interface Props {
     draft?: string;
+    size?: 'large' | 'small';
     onSend: (message: string) => void
 }
 
-export default (props: Props) => {
+
+const useStyles = makeStyles((theme: Theme) =>
+    createStyles({
+        layout: {
+            border: `1px solid ${theme.palette.divider}`,
+            borderStyle: "solid none none none",
+            backgroundColor: theme.palette.background.default,
+        },
+        layoutXs: {
+            backgroundColor: theme.palette.background.default,
+        },
+    }),
+);
+
+export default ({ draft, size = "large", onSend }: Props) => {
+    const classes = useStyles();
     const [message, setMessage] = React.useState('');
-    const onSend = () => {
-        props.onSend(message);
-        setMessage('');
-    }
-    return <Box height={220} p={2} style={{ backgroundColor: colors.lightGreen[200] }}>
+    return <Box height={size === 'large' ? 220 : 150} p={2} className={size === 'large' ? classes.layout : classes.layoutXs}>
         <Input multiline fullWidth
             autoFocus
-            rows={6}
-            rowsMax={6}
+            rows={size === 'large' ? 6 : 2}
+            rowsMax={size === 'large' ? 6 : 2}
             placeholder="Input something..."
             value={message}
             onChange={(e) => setMessage(e.target.value)}
@@ -25,7 +39,12 @@ export default (props: Props) => {
                 <InputAdornment position="end">
                     <IconButton
                         aria-label="toggle password visibility"
-                        onClick={() => onSend()}
+                        onClick={() => {
+                            if (message) {
+                                onSend(message);
+                                setMessage('');
+                            }
+                        }}
                     >
                         <SendIcon />
                     </IconButton>

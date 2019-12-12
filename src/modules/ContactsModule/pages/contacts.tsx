@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
-import { Box, colors } from '@material-ui/core';
+import { Box } from '@material-ui/core';
 import TreeIndexComponent from '../components/tree-index';
 import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
 import EmptyContent from '../components/empty-contacts';
@@ -14,14 +14,12 @@ import tempData from '../contactsData';
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         sider: {
-            width: '100%',
-            maxWidth: 280,
-            padding: 5,
-            backgroundColor: theme.palette.background.default
+            width: '20%',
+            minWidth: 280,
+            backgroundColor: theme.palette.background.default,
         },
         conversation: {
             flexGrow: 1,
-            backgroundColor: colors.lime[200],
         }
     }),
 );

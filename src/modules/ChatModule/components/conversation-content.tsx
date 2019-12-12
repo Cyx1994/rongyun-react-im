@@ -96,7 +96,6 @@ const ConversationContent: React.FC<Props> = ({ history, myId, targetId, onLoad,
         }
         onLoad();
     }
-    console.log(history);
     return (
         <RootRef rootRef={getNode}>
             <Box p={1} height="100%" style={{ overflow: 'auto' }} >

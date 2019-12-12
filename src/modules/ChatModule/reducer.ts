@@ -14,7 +14,7 @@ interface State {
     target?: Conversation;
     chatHistory: {
         [key: string]: Message[]
-    }; 
+    };
     hasMore: boolean;
 }
 

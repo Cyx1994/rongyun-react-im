@@ -13,6 +13,7 @@ const rootReducer = combineReducers({
 let middleware: any[] = [thunk];
 
 if (process.env.NODE_ENV === 'development') {
+    // 开发环境中间件
     middleware = [
         ...middleware,
         logger,

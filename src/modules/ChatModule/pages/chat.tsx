@@ -17,7 +17,9 @@ const useStyles = makeStyles((theme: Theme) =>
         sider: {
             width: '20%',
             minWidth: 280,
+            maxWidth: 300,
             marginLeft: 0,
+            backgroundColor: theme.palette.background.default,
         },
         conversation: {
             flexGrow: 1,
