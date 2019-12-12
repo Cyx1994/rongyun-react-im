@@ -16,8 +16,10 @@
 ### 模拟聊天
 
 * 发送：编辑文字并发送，RongCloudService 会收到信息。<br>
-* 接受：通过 [融云API调试工具](https://developer.rongcloud.cn/apitool/) - 消息服务 - 发送单聊消息,<br>
+* 接收：通过 [融云API调试工具](https://developer.rongcloud.cn/apitool/) - 消息服务 - 发送单聊消息,<br>
 填写 fromUserId = [任意角色] , toUserId = [你的登录名], 编辑content内容, 页面可接收到该消息。
+
+*也可以开两个页面，用不同的账号互相聊*
 
 ### 图灵机器人
 
