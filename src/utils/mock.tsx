@@ -34,6 +34,7 @@ export const mockColorByName = (name: string = 'a') => {
     return color;
 }
 
+// 功能就是后台那边再掉一个接口然后返回数据，代码搜索any-talk-robot
 export const talkToAnyTalkRobot = async (yourWords: string) => {
     const { data: { answer } }: any = await Axios.get(`/anytalkrobot/turing?words=${yourWords}`);
     return answer;
